@@ -1,61 +1,114 @@
 # Midpoint
 
-A peer-to-peer market for stablecoins against local money, with a public API.
+Midpoint is a payments app for sending money and paying across Latin America. People add money in
+their local currency (bolivianos first), keep a balance in dollars (USDC on Stellar) and send or
+pay it as local money in another country: a bank account in Argentina, a PIX key in Brazil, a shop's
+QR in Peru. Every exchange is a peer-to-peer order with a local merchant, protected by a Soroban
+smart contract.
 
-- **Buy or sell USDC** with a bank transfer, PIX or SPEI: type an amount and the market picks a merchant.
-- **Non-custodial**: tokens are locked in an on-chain contract until the party that receives the local
-  money releases them. Deadlines refund automatically; disputes go to an arbiter that can only split an
-  order between its own buyer and seller.
-- **Public API and bots**: merchants automate prices, acceptance and release with API keys, webhooks and
-  delegated bot keys; businesses embed buy/sell, collect payments in local money and send payouts.
+**Test market:** https://web-production-dee4269a.up.railway.app (Stellar testnet, test money only).
 
-See [AGENTS.md](AGENTS.md) for the layout and conventions, and [docs/HANDOFF.md](docs/HANDOFF.md) for the project's state, design and open decisions.
+## What it does
+
+For people, the app at `/app` (an installable PWA, in Spanish and English):
+
+- Sign up with an email code or Google (Pollar wallets). Midpoint pays the Stellar network fees.
+- Add money and cash out by bank transfer in bolivianos, Argentine, Mexican, Colombian and Chilean
+  pesos, reais (PIX) or soles.
+- Send dollars to anyone by `@handle`, link or QR.
+- Pay a shop's QR in another country: Argentina's interoperable QR, Brazil's PIX and Peru's Yape and
+  Plin.
+- Send money to a bank account abroad, such as a CBU, CVU or alias in Argentina, a CCI in Peru or a
+  CLABE in Mexico.
+- Pay a business's charge from its QR or link.
+- Chat with the merchant on each order and get the transfer receipt.
+
+For merchants and businesses, the dashboard and the public API:
+
+- Merchants keep their dollars in the contract, publish offers per currency and payment method, and
+  automate accepting, paying and releasing with API keys, webhooks and delegated bot keys. The SDK
+  ships a reference merchant bot.
+- Businesses embed buying and selling, collect payments in local money (charges) and send payouts.
+
+## How an order works
+
+1. The person types an amount. The matcher picks a merchant whose offer fits and opens the order on
+   the contract; there is no order book to browse.
+2. The contract locks the order's dollars: the merchant's when the person buys, the person's when
+   they sell, pay a QR or send to a bank account.
+3. The local money moves off chain (bank transfer, PIX, QR) and the payer marks the order paid,
+   with a receipt on the order's chat.
+4. The party that received the local money releases the dollars. Deadlines refund automatically,
+   and a dispute goes to an arbiter that can only split the order between its own buyer and seller.
+
+Prices follow live market references, and the person sees the quote before confirming.
 
 ## Workspaces
 
-- [`packages/contracts`](packages/contracts): the `P2PMarket` contract and its tests.
-- [`apps/api`](apps/api): the public API (routes, auth, webhooks, deploy script).
-- `apps/web`: the web app.
-- [`packages/sdk`](packages/sdk): the TypeScript SDK and a reference merchant bot.
+| Path                  | What                                                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/contracts`  | The Soroban `P2PMarket` contract (Rust), its committed wasm and interface spec, and its tests                                      |
+| `packages/payment-qr` | Reads what the app scans or pastes: Stellar addresses, SEP-7, the app's payment and charge links, handles, EMVCo merchant QRs      |
+| `apps/api`            | The public API (NestJS, Prisma, Postgres): offers, matching, orders, charges, payouts, webhooks, sponsored submission, the indexer |
+| `apps/web`            | The payments app (`/app`), the merchant dashboard, the charge page, the API docs and the landing (Vite, React, Tailwind)           |
+| `packages/sdk`        | TypeScript client for the API, webhook verification and a reference merchant bot                                                   |
 
-## Commands
+The API's OpenAPI spec is [`apps/api/openapi.json`](apps/api/openapi.json); the web serves the docs
+at `/docs`.
+
+## Run it locally
+
+Requires Node 24.9 or later.
 
 ```sh
 npm install
-npm run build       # every workspace (contracts first)
-npm test            # every workspace (the API's e2e tests start their own Postgres and EVM node)
-npm run typecheck
-npm run lint
+npm run dev:stack -- --testnet      # build, then bring the whole market up on Stellar testnet
+npm run dev:stack -- --stop         # stop it (or Ctrl+C in its own terminal)
+npm run dev:stack -- --reset        # a fresh database and a fresh market
+npm run dev:mock -w @midpoint/web   # only the web, with an in-browser mock API
 ```
 
-## Local test server
+`dev:stack` starts Postgres (Docker when a daemon is already running, otherwise an embedded one),
+deploys a market of its own (on testnet the accounts are funded by friendbot; without `--testnet`
+it uses a local Stellar network when Docker is running), seeds it through the API and runs three
+automated merchants that price from live references. The API is on
+http://localhost:4100 and the web on http://localhost:3100 (`--api-port`, `--web-port` and
+`--pg-port` change them). The state lives in `.dev-stack/` and survives restarts.
+
+Signing in needs a Pollar app: put its key in `apps/web/.env.local` as
+`VITE_POLLAR_PUBLISHABLE_KEY` and allow the web's origin in Pollar's dashboard (see
+[`apps/web/README.md`](apps/web/README.md)). The mock web signs in with any email and code.
+
+## Hosted test market
+
+A temporary deployment on Railway with its own testnet market, merchants and database:
+[`deploy/railway/README.md`](deploy/railway/README.md) (`npm run hosted -- init --origin https://…`,
+then `npm run hosted -- seed`).
+
+## Checks
 
 ```sh
-npm run dev:stack            # build, then bring the whole market up
-npm run dev:stack -- --reset # start over (fresh chain and database)
-npm run dev:stack -- --stop  # stop a running stack from another terminal (or Ctrl+C in its own)
-npm run dev:simulate -- <orderId>   # "the bank transfer arrived": plays the merchant's bot
+npm run build
+npm run typecheck
+npm run lint
+npm test                            # every workspace
+npm run test:e2e -w @midpoint/web   # the web in a browser (Playwright)
 ```
 
-One command brings up a working market on your machine, from npm packages only:
+The contract's tests run `cargo test`, so `npm test` needs Rust; `rust-toolchain.toml` pins the
+version and the `wasm32v1-none` target. Building does not need Rust: the wasm is committed.
 
-1. **Postgres**: `docker compose -f docker-compose.dev.yml` when a Docker daemon is already running;
-   otherwise an embedded Postgres (`embedded-postgres`). Docker is never started for you. Port 54329.
-2. **A local EVM node**: anvil (`@foundry-rs/anvil-<platform>`), chain id 31337, on port 8545, with
-   the standard development wallets funded.
-3. **Contracts**: `P2PMarket` (owner, arbiter and treasury are dev wallets) and a mintable test dollar
-   (`tUSD`, 6 decimals), allowed with `setToken`.
-4. **Seed, through the API itself**: a merchant organization ("Pampa Cambio") with a wallet registered
-   by signature, ARS and BRL payment methods and offers on both sides, 100 000 tUSD deposited and the
-   matcher authorised; a business organization with a test API key, a registered wallet and a charge.
-5. **The API** on http://localhost:4000 with the matcher, indexer, expiry and webhook jobs on, and the
-   **web app** on http://localhost:3000 when `apps/web` has a `dev` script.
+## Status
 
-It prints the URLs, the seeded API keys and the dev wallets' private keys. Those keys are public
-(the standard development mnemonic): they exist for the local chain only. To use the public app from a
-browser wallet, add a network with RPC `http://127.0.0.1:8545` and chain id `31337`, and import the
-"user" key. The dev-only "simulate bank transfer" route refuses anything but chain 31337 and is
-refused in production.
+A prototype running on Stellar testnet. The contract has not been audited, and some decisions are
+still open (the protocol fee, multisig owner and arbiter, legal review): see
+[`docs/HANDOFF.md`](docs/HANDOFF.md).
 
-State (chain, database, seed) lives in `.dev-stack/` and survives restarts; offer prices are
-refreshed on resume.
+## Docs
+
+- [`docs/HANDOFF.md`](docs/HANDOFF.md): the project's state, design, security invariants, open
+  decisions and backlog.
+- [`docs/STELLAR.md`](docs/STELLAR.md): the design contract of the Stellar market and the app.
+- [`AGENTS.md`](AGENTS.md): conventions for contributors.
+- The workspace READMEs: [contracts](packages/contracts/README.md), [API](apps/api/README.md),
+  [web](apps/web/README.md), [SDK](packages/sdk/README.md).

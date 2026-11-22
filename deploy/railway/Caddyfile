@@ -1,0 +1,28 @@
+# The web of a hosted test market: the app's files, and the API on the same origin.
+# PORT is the platform's; API_UPSTREAM is the API on the private network (host:port).
+{
+	admin off
+	servers {
+		# Every request comes through the platform's edge, which sets the client's address; the
+		# API counts its per-address limits on it (TRUST_PROXY=2: the edge, then this server).
+		trusted_proxies static 0.0.0.0/0 ::/0
+	}
+}
+
+:{$PORT:8080} {
+	encode zstd gzip
+
+	@api path /v1/* /.well-known/*
+	handle @api {
+		reverse_proxy {$API_UPSTREAM}
+	}
+
+	handle {
+		root * /srv
+		# The app's routes (/app/…, /dashboard/…, a charge's page) are the single page's.
+		try_files {path} {path}/index.html /index.html
+		file_server
+	}
+
+	header /assets/* Cache-Control "public, max-age=31536000, immutable"
+}

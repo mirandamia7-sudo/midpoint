@@ -18,6 +18,7 @@
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
     "dev:stack": "node scripts/dev-stack.ts",
+    "hosted": "node scripts/hosted-stack.ts",
     "dev:simulate": "npm run dev:simulate-transfer -w @midpoint/api --"
   },
   "devDependencies": {

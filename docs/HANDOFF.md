@@ -268,7 +268,8 @@ offered to liquidity merchants.
     sign-out): the payer per currency and the payout account per rail come back in add money,
     withdraw and the charge page; the sign-in email fills email fields and suggests the handle.
   - **Layout and motion**: phones get the floating dock and 24px gutters. From 768px up there is
-    a side navigation with the logo and a centred column of up to 820px, with 32px gutters.
+    a side navigation and a centred column of up to 820px, with 32px gutters: on a tablet the
+    navigation is a rail of icons (88px), from 1024px it has the logo and the labels (260px).
     Screens enter forward from the right, back from the left, and tab switches fade. There is
     no tap highlight, and every control shows its own press.
 - More of the owner's asks (2026-11-20, later; the hackathon is in Bolivia):
@@ -291,10 +292,20 @@ offered to liquidity merchants.
     - The bots send a PDF receipt when they pay and answer a person's first message once.
   - **Errors are toasts, not lines on the screen** (the owner asked twice). A
     `Notice tone="error"` is only a toast (`components/ui/Toast.tsx`: tones ok/info/error,
-    de-duplicated, a top-layer popover so it shows over dialogs, at the top on phones). Only an
+    de-duplicated, a top-layer popover so it shows over dialogs). Only an
     error that is a state of the screen keeps its line (`<Notice tone="error" stay>`): could not
     load, a QR not taken, a quote or sale that failed its check, a payout file missing columns,
     a suspended wallet. Form fields keep their own validation under them.
+  - **Where toasts show** (the owner, 2026-11-21): on a phone they come down from the top like a
+    notification and go back up (a swipe up dismisses one); from 768px up they stack in the top
+    right corner, in and out from the right edge (a swipe right dismisses one). The newest is on
+    top, three at most, a tap dismisses any (`components/ui/toast-model.ts`).
+  - **Responsive first, phones kept** (the owner, 2026-11-21). The welcome and sign-in
+    (`features/app/Welcome.tsx`): one column on a phone; on a tablet the same, centred; from
+    1024px split, the aura on the left and the words or the form centred on the right, with
+    "no account? create one" right under the form. The home's action tiles shrink their label
+    with the tile (a size container) instead of cutting it; Receive's amount and note line up
+    side by side (a subgrid).
   - **Google login** (Pollar's hosted OAuth in a new tab): the redirect is the page's origin,
     registered in Pollar's dashboard under Developers > Websites > Allowed redirect URIs
     (`http://localhost:3300`; Google itself needs nothing, Pollar uses its own credentials). The
@@ -432,7 +443,8 @@ offered to liquidity merchants.
    to 30 min). Acceptable?
 8. Fees are paid by the person (buyer pays the gross, receives the net). Intended?
 9. Hosting: a deployment on the owner's VPS (HTTPS) is needed to test on a phone and to install
-   the PWA.
+   the PWA. Meanwhile (the owner, 2026-11-21: not on the VPS for now) a temporary hosted test
+   market on Railway, apart from the local stack: `deploy/railway/README.md`, `npm run hosted`.
 10. **Legal:** in Argentina, a service that matches fiat-crypto exchanges between third parties and
     charges fees likely needs CNV PSAV registration (RG 1172/2026). Paying shop QRs through
     merchants adds payments-regulation questions. Get a lawyer's opinion before any live launch.

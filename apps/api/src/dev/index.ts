@@ -39,6 +39,7 @@ export {
   type DevRole,
 } from '@/dev/stellar-dev';
 export { localApiEnv } from '@/dev/local-env';
+export { HOSTED_PROXY_HOPS, hostedApiEnv } from '@/dev/hosted-env';
 export {
   DevApi,
   organizationWithKey,

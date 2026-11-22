@@ -357,9 +357,14 @@
   .tile:active {
     transform: scale(0.97);
   }
+  /* The label fits its tile down to a 320px phone: it shrinks with the tile (a size container)
+     before it would be cut. */
+  .tile {
+    container-type: inline-size;
+  }
   .tile .caps {
-    font-size: 0.65rem;
-    letter-spacing: 0.035em;
+    font-size: clamp(0.5rem, 19cqi, 0.65rem);
+    letter-spacing: 0.02em;
   }
   .tile-icon {
     display: grid;
@@ -845,25 +850,48 @@
       transform: translateX(-32px);
     }
   }
-  /* A toast drops in from the top on a phone and rises from the bottom from tablets up. */
+  /* A toast comes down from the top on a phone, like a notification, and goes back up. From a
+     tablet up it comes in from the right edge, in the top right corner, and leaves the same way.
+     A toast let go after a short swipe slides back into place. */
   .toast {
-    animation: toast-in 240ms cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+    animation: toast-down 380ms cubic-bezier(0.2, 1.15, 0.35, 1) backwards;
+    transition:
+      transform 180ms cubic-bezier(0.2, 0.9, 0.25, 1),
+      opacity 180ms ease;
   }
-  @keyframes toast-in {
+  .toast[data-leaving] {
+    animation: toast-up 220ms cubic-bezier(0.5, 0, 0.75, 0) forwards;
+  }
+  @keyframes toast-down {
     from {
       opacity: 0;
-      transform: translateY(-10px) scale(0.98);
+      transform: translateY(calc(-100% - 24px));
+    }
+  }
+  @keyframes toast-up {
+    to {
+      opacity: 0;
+      transform: translateY(calc(-100% - 24px));
     }
   }
   @media (min-width: 768px) {
     .toast {
-      animation-name: toast-up;
+      animation-name: toast-in-right;
+    }
+    .toast[data-leaving] {
+      animation-name: toast-out-right;
     }
   }
-  @keyframes toast-up {
+  @keyframes toast-in-right {
     from {
       opacity: 0;
-      transform: translateY(10px) scale(0.98);
+      transform: translateX(calc(100% + 32px));
+    }
+  }
+  @keyframes toast-out-right {
+    to {
+      opacity: 0;
+      transform: translateX(calc(100% + 32px));
     }
   }
   /* The tab just chosen settles in with a small spring. */

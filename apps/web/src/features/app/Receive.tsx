@@ -22,6 +22,9 @@ import { useAppData, usePrice } from '@/features/app/data';
 import { Screen } from '@/features/app/shell';
 import { ActivationCard, useLocal, useUsd } from '@/features/app/parts';
 
+/** A field beside another from 640px up: label, input and message each on a row the two share. */
+const PAIRED = 'sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:[&>label]:self-end';
+
 export default function Receive() {
   const { t, lang } = useI18n();
   const r = t.app.receive;
@@ -170,8 +173,11 @@ export default function Receive() {
             <b className="font-bold">{unitCode}</b>
             <Icon name="chevron" size={16} />
           </button>
+          {/* Side by side, the two fields share rows (a subgrid): the inputs line up even when
+              one label takes two lines. */}
           <div className="grid gap-4 sm:grid-cols-2">
             <Field
+              className={PAIRED}
               label={fmt(r.amountIn, { unit: unitCode })}
               inputMode="decimal"
               placeholder={decimals === 0 ? '0' : '0.00'}
@@ -181,6 +187,7 @@ export default function Receive() {
               error={amountOk ? null : t.app.send.badAmount}
             />
             <Field
+              className={PAIRED}
               label={r.note}
               value={note}
               maxLength={28}

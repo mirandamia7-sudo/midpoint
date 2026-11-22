@@ -1,13 +1,15 @@
 /* The payments app's frame. On a phone: one column, safe-area insets and the floating dock with
-   the scan button in the middle. From a tablet up (768px): a side navigation with the logo, and the
-   screens in a wider centred column. Every screen comes in with a short motion (forward from the
-   right, back from the left, a tab switch fades); the banners for no connection and a new
-   version. Also the screen header with a back button, and the home's action tiles. */
+   the scan button in the middle. From a tablet up (768px): a side navigation and the screens in a
+   wider centred column; on a tablet the navigation is a rail of icons (88px), from a laptop up
+   (1024px) it has the logo and the labels (260px). Every screen comes in with a short motion
+   (forward from the right, back from the left, a tab switch fades); the banners for no
+   connection and a new version. Also the screen header with a back button, and the home's action
+   tiles. */
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Link, NavLink, useLocation, useNavigate, useNavigationType } from 'react-router';
 import { useI18n } from '@/i18n';
 import { Icon, type IconName } from '@/components/ui/Icon';
-import { Logo } from '@/components/ui/Logo';
+import { Logo, LogoGlyph } from '@/components/ui/Logo';
 import { applyUpdate, usePwa } from '@/lib/pwa';
 
 export const TAB_PATHS = ['/app', '/app/activity', '/app/receive', '/app/me'];
@@ -47,7 +49,7 @@ export function AppFrame({
     <div className="app-backdrop min-h-dvh">
       {nav && <SideNav />}
       <div
-        className={`app-column relative mx-auto flex min-h-dvh w-full max-w-[460px] flex-col bg-paper md:w-auto md:max-w-none ${nav ? 'md:ml-[260px]' : 'md:mx-0'}`}
+        className={`app-column relative mx-auto flex min-h-dvh w-full max-w-[460px] flex-col bg-paper md:w-auto md:max-w-none ${nav ? 'md:ml-[88px] lg:ml-[260px]' : 'md:mx-0'}`}
       >
         <div className="app-top-inset" />
         {!pwa.online && (
@@ -73,11 +75,7 @@ export function AppFrame({
           id="main"
           className={`flex flex-1 flex-col ${tabs ? 'app-with-tabs' : 'app-without-tabs'}`}
         >
-          <div
-            key={pathname}
-            data-motion={motion}
-            className="screen flex w-full flex-1 flex-col"
-          >
+          <div key={pathname} data-motion={motion} className="screen flex w-full flex-1 flex-col">
             {children}
           </div>
         </main>
@@ -155,33 +153,49 @@ function SideLink({
     <NavLink
       to={to}
       end={end}
+      title={label}
       className={({ isActive }) =>
-        `flex min-h-12 items-center gap-3 rounded-full px-4 font-semibold transition-[background-color,color,transform] duration-200 active:scale-[0.98] ${isActive ? 'tab-on bg-well text-ink' : 'text-ink-2 hover:bg-well hover:text-ink'}`
+        `flex size-12 items-center justify-center gap-3 rounded-full font-semibold transition-[background-color,color,transform] duration-200 active:scale-[0.98] lg:h-auto lg:min-h-12 lg:w-auto lg:justify-start lg:px-4 ${isActive ? 'tab-on bg-well text-ink' : 'text-ink-2 hover:bg-well hover:text-ink'}`
       }
     >
       <Icon name={icon} size={20} />
-      {label}
+      {/* The rail shows the icon alone; the label is still the link's name. */}
+      <span className="sr-only lg:not-sr-only">{label}</span>
     </NavLink>
   );
 }
 
-/** The tabs from a tablet up: a side navigation with the logo, the scan button below. */
+/** The tabs from a tablet up: a side navigation with the logo, the scan button below. On a tablet
+    it is a rail: the cut M, the icons and a round scan button. */
 function SideNav() {
   const { t } = useI18n();
   const tb = t.app.tabs;
   return (
     <nav
       aria-label={tb.label}
-      className="fixed inset-y-0 left-0 z-20 hidden w-[260px] flex-col gap-1 border-r border-line bg-sheet px-4 py-6 md:flex"
+      className="fixed inset-y-0 left-0 z-20 hidden w-[88px] flex-col items-center gap-1 border-r border-line bg-sheet px-3 py-6 md:flex lg:w-[260px] lg:items-stretch lg:px-4"
     >
-      <Link to="/app" className="mb-8 self-start rounded-[10px] px-3" aria-label={tb.home}>
-        <Logo size={22} />
+      <Link
+        to="/app"
+        className="mb-8 grid min-h-9 place-items-center rounded-[10px] lg:self-start lg:px-3"
+        aria-label={tb.home}
+      >
+        <LogoGlyph size={24} className="text-ink lg:hidden" />
+        <Logo size={22} className="hidden text-ink lg:block" />
       </Link>
       <SideLink to="/app" end icon="home" label={tb.home} />
       <SideLink to="/app/activity" icon="list" label={tb.activity} />
       <SideLink to="/app/receive" icon="qr" label={tb.receive} />
       <SideLink to="/app/me" icon="user" label={tb.me} />
-      <NavLink to="/app/scan" className="btn btn-ink btn-lg mt-6">
+      <NavLink
+        to="/app/scan"
+        className="btn btn-ink btn-icon mt-6 size-12 lg:hidden"
+        aria-label={tb.scan}
+        title={tb.scan}
+      >
+        <Icon name="scan" size={20} strokeWidth={2.2} />
+      </NavLink>
+      <NavLink to="/app/scan" className="btn btn-ink btn-lg mt-6 hidden lg:inline-flex">
         <Icon name="scan" size={20} strokeWidth={2.2} />
         {tb.scan}
       </NavLink>

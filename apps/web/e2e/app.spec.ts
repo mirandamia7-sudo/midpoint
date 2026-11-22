@@ -72,7 +72,10 @@ test('send to a handle with a note: review the resolved address, sign, done (Spa
   await expect(never).toHaveCount(1);
   await expect(never.getByText('Cancelada', { exact: true })).toBeVisible();
   await expect(never.locator('.pill')).toHaveCount(0);
-  await expect(never.getByText('Retiraste a tu banco')).toHaveCSS('text-decoration-line', 'line-through');
+  await expect(never.getByText('Retiraste a tu banco')).toHaveCSS(
+    'text-decoration-line',
+    'line-through',
+  );
   await expect(page.getByText('Fallida')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
@@ -92,7 +95,9 @@ test('receive: a payment link with a handle, or a SEP-7 request (English)', asyn
   await page.getByRole('dialog').getByRole('button', { name: /BOB/ }).click();
   await expect(page.getByTestId('receive-unit')).toHaveAccessibleName(/BOB/);
   await page.getByLabel('Ask for an amount in BOB (optional)').fill('118.5');
-  await expect(page.getByText('About $10.00 reaches your wallet.')).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText('About $10.00 reaches your wallet.')).toBeVisible({
+    timeout: 15_000,
+  });
   await expect(page.getByText(/\/app\/send\?to=%40user&amount=10(\.00)?&asset=USDC/)).toBeVisible();
   // The picker lists the network's tokens and every currency (the mock network has USDC only).
   await page.getByTestId('receive-unit').click();
@@ -364,7 +369,7 @@ test('chat: the merchant sends the transfer receipt; the person writes and gets 
   expect(errors).toEqual([]);
 });
 
-test("a Yape QR from Peru (static, the account an opaque token): typed amount in soles, paid through a merchant (English)", async ({
+test('a Yape QR from Peru (static, the account an opaque token): typed amount in soles, paid through a merchant (English)', async ({
   page,
 }) => {
   test.setTimeout(90_000);
@@ -405,7 +410,9 @@ test('send to a bank account abroad: a CCI typed in "To" opens a sale to that ac
   });
   await expect(page.getByTestId('trade-dollars')).toHaveCount(0);
   await page.getByLabel('They receive', { exact: true }).fill('74');
-  await expect(page.getByLabel('You send', { exact: true })).toHaveValue('20.00', { timeout: 15_000 });
+  await expect(page.getByLabel('You send', { exact: true })).toHaveValue('20.00', {
+    timeout: 15_000,
+  });
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByText(/^74\.00\sPEN$/).first()).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Which account it goes to' })).toBeVisible();
@@ -416,7 +423,9 @@ test('send to a bank account abroad: a CCI typed in "To" opens a sale to that ac
   await page.getByLabel('Account holder').fill('Rosa Quispe');
   await page.getByRole('button', { name: 'Open order' }).click();
   await page.getByRole('button', { name: 'Sign', exact: true }).click({ timeout: 15_000 });
-  await expect(page.getByRole('button', { name: /Transfer receipt/ })).toBeVisible({ timeout: 40_000 });
+  await expect(page.getByRole('button', { name: /Transfer receipt/ })).toBeVisible({
+    timeout: 40_000,
+  });
   expect(errors).toEqual([]);
 });
 
@@ -427,10 +436,14 @@ test("send to someone's CVU in Argentina: their name and account only, no ID ask
   const errors = trackErrors(page);
   await appSignIn(page, 'es');
   await page.goto('/app/send');
-  await page.getByLabel('@usuario, dirección de Stellar o cuenta bancaria').fill('0000003100012345678907');
+  await page
+    .getByLabel('@usuario, dirección de Stellar o cuenta bancaria')
+    .fill('0000003100012345678907');
   await page.getByRole('button', { name: /Enviar al CVU ••••8907/ }).click();
   await page.getByLabel('Recibe', { exact: true }).fill('14520');
-  await expect(page.getByText(/1 USDC = 1452 ARS|1 USDC = 1\.452 ARS/)).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText(/1 USDC = 1452 ARS|1 USDC = 1\.452 ARS/)).toBeVisible({
+    timeout: 15_000,
+  });
   await expect(page.getByTestId('trade-dollars')).toHaveText('≈ US$ 10,00');
   await page.getByRole('button', { name: 'Continuar' }).click();
   // One field for the account: a CBU, a CVU or an alias.
@@ -447,4 +460,87 @@ test("send to someone's CVU in Argentina: their name and account only, no ID ask
     timeout: 40_000,
   });
   expect(errors).toEqual([]);
+});
+
+test('the sign-in fits the screen, and its toasts: the top right corner on a wide screen, down from the top on a phone (Spanish)', async ({
+  page,
+}, info) => {
+  const wide = info.project.name === 'desktop';
+  const errors = trackErrors(page);
+  await page.goto('/app?lang=es');
+  await page
+    .getByRole('button', { name: 'Iniciar sesión', exact: true })
+    .locator('visible=true')
+    .first()
+    .click();
+  const google = page.getByRole('button', { name: 'Continuar con Google' });
+  await expect(google).toBeVisible();
+  if (wide) {
+    // A laptop: the form in the right column, beside the aura, the way to sign up right under it.
+    const g = (await google.boundingBox())!;
+    const other = (await page.getByText('¿No tienes cuenta?').boundingBox())!;
+    expect(g.x).toBeGreaterThan(page.viewportSize()!.width / 2);
+    expect(other.y - (g.y + g.height)).toBeLessThan(80);
+    // A tablet: the form alone, centred.
+    await page.setViewportSize({ width: 800, height: 1024 });
+    await expect
+      .poll(async () => {
+        const b = (await google.boundingBox())!;
+        return Math.round(b.x + b.width / 2);
+      })
+      .toBe(400);
+    await expectNoHorizontalScroll(page);
+    await page.setViewportSize({ width: 1366, height: 900 });
+  }
+  await expectNoHorizontalScroll(page);
+
+  await page.getByLabel('Email').fill('a@b');
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click();
+  const toast = page.getByRole('alert');
+  await expect(toast).toHaveText('Revisa el email.');
+  const width = page.viewportSize()!.width;
+  // Once it has come in: in the top right corner, or across the top of a phone.
+  await expect
+    .poll(async () => {
+      const b = (await toast.boundingBox())!;
+      return wide
+        ? [Math.round(width - (b.x + b.width)), Math.round(b.y)]
+        : [Math.round(b.x + b.width / 2 - width / 2), Math.round(b.y)];
+    })
+    .toEqual(wide ? [24, 24] : [0, 10]);
+  // A tap sends it away.
+  await toast.click();
+  await expect(toast).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('from a tablet up the sections are at the side: icons on a tablet, with their names on a laptop; the home tiles fit a small phone (English)', async ({
+  page,
+}, info) => {
+  test.skip(info.project.name !== 'desktop', 'the sizes are set by hand on the desktop project');
+  await appSignIn(page, 'en');
+  // The side navigation (the home's action tiles share its name).
+  const nav = page
+    .getByRole('navigation', { name: 'App sections' })
+    .filter({ has: page.getByRole('link', { name: 'Activity' }) });
+  const activity = nav.getByRole('link', { name: 'Activity' });
+  await expect(activity).toHaveText('Activity');
+  expect((await nav.boundingBox())!.width).toBe(260);
+  // A tablet: a rail of icons; each link keeps its name.
+  await page.setViewportSize({ width: 800, height: 1024 });
+  await expect.poll(async () => (await nav.boundingBox())!.width).toBe(88);
+  await expect(activity).toBeVisible();
+  expect((await activity.boundingBox())!.width).toBe(48);
+  await expect(nav.getByRole('link', { name: 'Scan' })).toBeVisible();
+  await expectNoHorizontalScroll(page);
+  // A 320px phone: the four action tiles keep their whole label.
+  await page.setViewportSize({ width: 320, height: 640 });
+  await expect(page.getByRole('link', { name: 'Withdraw' })).toBeVisible();
+  const cut = await page.evaluate(() =>
+    [...document.querySelectorAll('.tile .caps')]
+      .filter((e) => e.scrollWidth > e.clientWidth)
+      .map((e) => e.textContent),
+  );
+  expect(cut).toEqual([]);
+  await expectNoHorizontalScroll(page);
 });

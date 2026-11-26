@@ -23,7 +23,7 @@ export class ChargeView {
   @ApiProperty({ example: 'USDC' })
   tokenSymbol!: string;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
   @ApiProperty({ example: '25000.00' })
@@ -39,7 +39,7 @@ export class ChargeView {
   description!: string | null;
 
   @ApiProperty({
-    example: 'Tienda Salta',
+    example: 'Tienda Mamoré',
     description: 'Who the payer sees it is paying.',
   })
   payeeName!: string;
@@ -110,14 +110,14 @@ export class CheckoutChargeView {
   @ApiProperty({ example: 'USDC' })
   tokenSymbol!: string;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
   @ApiProperty({ example: '25000.00' })
   fiatAmount!: string;
 
   @ApiProperty({
-    example: 'Tienda Salta',
+    example: 'Tienda Mamoré',
     description: 'Who the payer is paying: the name the charge’s creator chose (`payeeName`).',
   })
   merchantName!: string;
@@ -133,7 +133,7 @@ export class CheckoutChargeView {
 
   @ApiProperty({
     type: [String],
-    example: ['ar_bank_transfer'],
+    example: ['bo_bank_transfer'],
     description: 'Rails a merchant offers for this currency, network and token now.',
   })
   rails!: string[];
@@ -170,7 +170,7 @@ export class CheckoutOrderView {
   })
   status!: string;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
   @ApiProperty({
@@ -179,13 +179,13 @@ export class CheckoutOrderView {
   })
   fiatAmount!: string;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
   @ApiProperty({
     type: String,
     nullable: true,
-    example: 'Pampa Cambio',
+    example: 'Oriente Cambio',
     description:
       'The merchant the payer transfers to (it fills the order), not the charge’s payee.',
   })
@@ -242,7 +242,7 @@ export class FailedPayoutItemView {
   })
   index!: number;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
   @ApiProperty({ example: '50000' })

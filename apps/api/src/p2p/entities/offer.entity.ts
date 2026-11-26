@@ -33,13 +33,13 @@ export class OfferView {
   @ApiProperty({ example: 'USDC' })
   tokenSymbol!: string;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
-  @ApiProperty({ type: [String], example: ['ar_bank_transfer'] })
+  @ApiProperty({ type: [String], example: ['bo_bank_transfer'] })
   rails!: string[];
 
-  @ApiProperty({ example: '1250.5', description: 'Local money per one token.' })
+  @ApiProperty({ example: '12.1', description: 'Local money per one token.' })
   price!: string;
 
   @ApiProperty({ example: '2026-11-19T12:00:00.000Z' })
@@ -93,7 +93,7 @@ export class OfferListView {
     'The merchant a quote matched, as people see it: a name and a track record, never its address or accounts.',
 })
 export class QuoteMerchantView extends MerchantStatsView {
-  @ApiProperty({ example: 'Pampa Cambio' })
+  @ApiProperty({ example: 'Oriente Cambio' })
   displayName!: string;
 }
 
@@ -162,17 +162,17 @@ export class QuoteView {
   @ApiProperty({ example: 7 })
   tokenDecimals!: number;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
-  @ApiProperty({ example: '1250.5', description: 'Local money per one token.' })
+  @ApiProperty({ example: '12.1', description: 'Local money per one token.' })
   price!: string;
 
   @ApiProperty({
-    example: '125050.00',
+    example: '1210.00',
     description: 'BUY: what the person pays. SELL: what the person receives.',
   })
   fiatAmount!: string;

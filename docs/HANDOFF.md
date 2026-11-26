@@ -7,11 +7,20 @@ contract of the Stellar port and the app) and the workspace READMEs.
 
 ## 1. What Midpoint is
 
-A peer-to-peer market for stablecoins (USDC) against local money (bank transfers, PIX, Argentina's
-interoperable QR...), modelled on p2p.me but with a **public API**, running on **Stellar**. On top
-of the market sits a **simple payments app** (an installable PWA at `/app`): balance in dollars,
-send and receive by `@handle`, link or QR, pay a shop's QR in pesos or reais through a market
+A **Bolivian** peer-to-peer market for stablecoins (USDC) against local money (bank transfers in
+bolivianos first, then Bolivia's neighbours: Peru's QR and banks, PIX, Argentina's and Chile's
+banks...), modelled on p2p.me but with a **public API**, running on **Stellar**. On top of the
+market sits a **simple payments app** (an installable PWA at `/app`): balance in dollars, send and
+receive by `@handle`, link or QR, pay a shop's QR abroad (soles, reais, pesos) through a market
 merchant, pay a business's charge, add money and withdraw.
+
+**The product is Bolivian (owner, 2026-11-25: "hazlo un producto boliviano").** Copy, examples,
+demo data and the API reference speak of Bolivia first: the footer says «Hecho en Bolivia», the
+mock's merchant, charges, orders and payouts are in BOB with Bolivian banks, names and CI/NIT, the
+demo QRs are shops a Bolivian pays abroad (a café in Cusco, PIX in Corumbá), and lists of countries
+go Bolivia, Peru, Brazil, Argentina, Chile, Colombia, Mexico. Argentina is one more supported
+country, never the default or the first example; nothing in the product is from Salta. "Add money"
+from a QR that the balance cannot cover is filled in the person's own money, not the shop's.
 
 The owner's requests (Spanish), in order:
 
@@ -102,20 +111,21 @@ npm run dev:mock -w @midpoint/web        # the whole web with no backend (demo w
   network, which has no Circle USDC; it stays allowed on the contract of a testnet market
   deployed before, unlisted, and the TUSD already deposited there was not withdrawn.
 - **Currencies: the boliviano (BOB) is the main one** and the market lists it first (`BOB`,
-  2 decimals, country `BO`, then ARS, BRL, MXN, COP, PEN, CLP). Its one rail is
+  2 decimals, country `BO`, then PEN, BRL, ARS, CLP, COP, MXN: its neighbours first). Its one rail is
   `bo_bank_transfer` ("Bank transfer"): `bank` (bank name), `accountType` (`savings` |
   `checking`), `accountNumber` (spaces, dots and hyphens dropped, then 6 to 20 digits),
   `documentType` (`CI` | `NIT` | `CE` | `PP`) and `documentNumber` (spaces, dots and hyphens
   dropped, then 5 to 15 letters or digits, uppercased: a CI with complement `1234567-1A` becomes
   `12345671A`), all required; summary `<bank> ••••1234`. No Bolivian QR rail yet.
-- The stack runs **three automated test merchants**: Andes Cambio, Pampa Pagos and Río Express
-  (keys and set-up in `.dev-stack/merchants.json`, created on the first run and reused after).
+- The stack runs **three automated test merchants**: Andes Cambio, Illimani Pagos and Río Express
+  (keys and set-up in `.dev-stack/merchants.json`, created on the first run and reused after;
+  Illimani Pagos keeps its old state key `pampa`, so a running market keeps its funded merchant).
   Each has its own organization, `pk_test_` key, payment methods (a Bolivian bank transfer first
   — Banco Unión, Banco Mercantil Santa Cruz, Banco BISA, company NITs — then ARS, BRL, MXN, COP,
   PEN, CLP between them, plus `ar_qr` / `br_pix_qr` and, all three, `pe_qr`: Peru's
   interoperable QR of Yape, Plin and the banks, whose static QRs carry the account as an opaque
   token and no amount, so the person types it), offers in USDC and XLM (dollar orders up to
-  2 000 USD), liquidity and the matcher. The seeded merchant (Pampa Cambio) collects in BOB
+  2 000 USD), liquidity and the matcher. The seeded merchant (Oriente Cambio) collects in BOB
   (Banco Nacional de Bolivia), ARS and BRL. **Every start syncs the seed and the merchants,
   idempotently, without a reset** (`apps/api/src/dev/merchant-sync.ts`): missing payment methods
   and offers are added, active offers in a token no longer listed (TUSD) are deactivated through

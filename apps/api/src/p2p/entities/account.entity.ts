@@ -73,7 +73,7 @@ export class AccountView {
   @ApiProperty({
     type: String,
     nullable: true,
-    example: 'Pampa Cambio',
+    example: 'Oriente Cambio',
     description:
       'The name people see on a quote when this account is the merchant. Required before it can publish an offer.',
   })
@@ -215,10 +215,10 @@ export class PaymentMethodView {
   @ApiProperty({ example: 'cm3p2pacc0001l70g8v5q3z2w' })
   accountId!: string;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
   @ApiProperty({
@@ -230,13 +230,19 @@ export class PaymentMethodView {
   @ApiProperty({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { alias: 'pampa.cambio', cuit: '20123456786' },
+    example: {
+      bank: 'Banco Unión',
+      accountType: 'savings',
+      accountNumber: '1000012345678',
+      documentType: 'NIT',
+      documentNumber: '1023456789',
+    },
     description: 'The rail’s fields, normalized (`GET /v1/p2p/market` lists them per rail).',
   })
   details!: Record<string, string>;
 
   @ApiProperty({
-    example: 'alias pampa.cambio',
+    example: 'Banco Unión ••••5678',
     description: 'A short, masked line.',
   })
   summary!: string;

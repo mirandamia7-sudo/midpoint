@@ -78,7 +78,7 @@ describe('a scan opens the right screen', () => {
     });
   });
   test("a shop's Argentine QR or PIX: pay it through a merchant", () => {
-    const ar = arQr({ merchant: 'Cafe', city: 'Salta', amount: '100.00' });
+    const ar = arQr({ merchant: 'Cafe', city: 'Buenos Aires', amount: '100.00' });
     assert.deepEqual(routeScan(ar, CTX), { to: 'pay-qr', payload: ar });
     const pix = pixQr({ merchant: 'Padaria', city: 'SP', amount: null });
     assert.deepEqual(routeScan(pix, CTX), { to: 'pay-qr', payload: pix });
@@ -93,7 +93,7 @@ describe('a scan opens the right screen', () => {
         tlv('60', 'CDMX'),
     );
     assert.deepEqual(routeScan(mx, CTX), { to: 'problem', problem: 'qr-not-taken' });
-    const ar = arQr({ merchant: 'Cafe', city: 'Salta', amount: '100.00' });
+    const ar = arQr({ merchant: 'Cafe', city: 'Buenos Aires', amount: '100.00' });
     assert.deepEqual(routeScan(`${ar.slice(0, -1)}0`, CTX), {
       to: 'problem',
       problem: 'emv-invalid',

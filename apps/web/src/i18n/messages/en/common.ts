@@ -32,7 +32,7 @@ const common: typeof es = {
     apiReference: 'API reference',
     security: 'Security model',
     quickstart: 'Quick start',
-    status: 'Made in Salta for all of Latin America.',
+    status: 'Made in Bolivia for all of Latin America.',
   },
   actions: {
     copy: 'Copy',

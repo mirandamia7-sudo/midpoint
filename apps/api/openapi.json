@@ -16,7 +16,7 @@
           },
           "displayName": {
             "description": "The name people see on a quote when this account is the merchant. Required before it can publish an offer.",
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "nullable": true,
             "type": "string"
           },
@@ -170,7 +170,7 @@
           },
           "displayName": {
             "description": "The name people see on a quote when this account is the merchant. Required before it can publish an offer.",
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "nullable": true,
             "type": "string"
           },
@@ -565,7 +565,7 @@
         "description": "A charge as its payer sees it.",
         "properties": {
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "description": {
@@ -585,7 +585,7 @@
           },
           "merchantName": {
             "description": "Who charges.",
-            "example": "Panaderia La Salteña",
+            "example": "Tienda Mamoré",
             "type": "string"
           },
           "network": {
@@ -603,7 +603,7 @@
             "type": "object"
           },
           "rails": {
-            "description": "Rails the pesos checkout offers now.",
+            "description": "Rails the local-money checkout offers now.",
             "items": {
               "type": "string"
             },
@@ -756,7 +756,7 @@
             "type": "string"
           },
           "handle": {
-            "example": "maria_salta",
+            "example": "maria_flores",
             "type": "string"
           }
         },
@@ -859,7 +859,7 @@
             "type": "string"
           },
           "handle": {
-            "example": "maria_salta",
+            "example": "maria_flores",
             "nullable": true,
             "type": "string"
           }
@@ -877,19 +877,19 @@
             "description": "A trade only.",
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "fiatAmount": {
             "description": "Local money. A trade: what the person pays (BUY) or receives (SELL). A QR payment: what the shop gets, required when the QR carries no amount and equal to it when it does.",
-            "example": "125050",
+            "example": "1210",
             "type": "string"
           },
           "kind": {
@@ -912,8 +912,8 @@
             "type": "string"
           },
           "qr": {
-            "description": "A QR payment: the scanned merchant QR exactly as read (Argentina’s interoperable QR, PIX, or Peru’s interoperable QR of Yape, Plin and the banks). Its CRC must check. A static QR carries no amount: give `fiatAmount`.",
-            "example": "00020101021243650016com.mercadolibre...6304ABCD",
+            "description": "A QR payment: the scanned merchant QR exactly as read (Peru’s interoperable QR of Yape, Plin and the banks, Brazil’s PIX, or Argentina’s interoperable QR). Its CRC must check. A static QR carries no amount: give `fiatAmount`.",
+            "example": "0002010102123944Zm9vYmFy...6304ABCD",
             "type": "string"
           },
           "rail": {
@@ -930,7 +930,7 @@
               "br_pix_qr",
               "pe_qr"
             ],
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "side": {
@@ -1088,7 +1088,7 @@
             "type": "string"
           },
           "toHandle": {
-            "example": "maria_salta",
+            "example": "maria_flores",
             "nullable": true,
             "type": "string"
           },
@@ -1186,8 +1186,9 @@
             },
             "description": "The rail’s fields, checked like a payment method’s.",
             "example": {
-              "cbu": "2850590940090418135201",
-              "cuit": "27234567891"
+              "accountNumber": "1000023456781",
+              "accountType": "savings",
+              "bank": "Banco Unión"
             },
             "type": "object"
           },
@@ -1219,8 +1220,9 @@
               "type": "string"
             },
             "example": {
-              "cbu": "2850590940090418135201",
-              "cuit": "27234567891"
+              "accountNumber": "1000023456781",
+              "accountType": "savings",
+              "bank": "Banco Unión"
             },
             "type": "object"
           },
@@ -1235,7 +1237,7 @@
             "type": "string"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           }
         },
@@ -1357,7 +1359,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "description": {
@@ -1400,7 +1402,7 @@
           },
           "payeeName": {
             "description": "Who the payer sees it is paying.",
-            "example": "Tienda Salta",
+            "example": "Tienda Mamoré",
             "type": "string"
           },
           "recipientAccountId": {
@@ -1476,7 +1478,7 @@
         "description": "A charge as its payer sees it: the amount, what it is for and the rails merchants take for it right now. Nothing about who created it.",
         "properties": {
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "description": {
@@ -1499,7 +1501,7 @@
           },
           "merchantName": {
             "description": "Who the payer is paying: the name the charge’s creator chose (`payeeName`).",
-            "example": "Tienda Salta",
+            "example": "Tienda Mamoré",
             "type": "string"
           },
           "network": {
@@ -1509,7 +1511,7 @@
           "rails": {
             "description": "Rails a merchant offers for this currency, network and token now.",
             "example": [
-              "ar_bank_transfer"
+              "bo_bank_transfer"
             ],
             "items": {
               "type": "string"
@@ -1558,7 +1560,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "fiatAmount": {
@@ -1572,7 +1574,7 @@
           },
           "merchantName": {
             "description": "The merchant the payer transfers to (it fills the order), not the charge’s payee.",
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "nullable": true,
             "type": "string"
           },
@@ -1604,7 +1606,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "settleDeadline": {
@@ -1660,7 +1662,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "fiatAmount": {
@@ -1674,7 +1676,7 @@
           },
           "merchantName": {
             "description": "The merchant the payer transfers to (it fills the order), not the charge’s payee.",
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "nullable": true,
             "type": "string"
           },
@@ -1701,7 +1703,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "settleDeadline": {
@@ -1837,14 +1839,14 @@
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "description": {
@@ -1879,7 +1881,7 @@
           },
           "payeeName": {
             "description": "Who the payer is paying, as the payer page shows it (your business name). Never taken from your account.",
-            "example": "Tienda Salta",
+            "example": "Tienda Mamoré",
             "maxLength": 60,
             "minLength": 2,
             "type": "string"
@@ -1924,7 +1926,7 @@
               "br_pix_qr",
               "pe_qr"
             ],
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           }
         },
@@ -1950,14 +1952,14 @@
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "maxFiat": {
@@ -1981,7 +1983,7 @@
           },
           "price": {
             "description": "Local money per one token, up to 6 decimals.",
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "priceTtlSeconds": {
@@ -1995,7 +1997,7 @@
           "rails": {
             "description": "Rails of the currency you take. A SELL_TOKEN offer needs an active payment method on each.",
             "example": [
-              "ar_bank_transfer"
+              "bo_bank_transfer"
             ],
             "items": {
               "enum": [
@@ -2150,7 +2152,7 @@
       "CreateOrganization": {
         "properties": {
           "name": {
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "maxLength": 80,
             "minLength": 2,
             "type": "string"
@@ -2172,14 +2174,14 @@
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "details": {
@@ -2187,8 +2189,11 @@
               "type": "string"
             },
             "example": {
-              "alias": "pampa.cambio",
-              "cuit": "20123456786"
+              "accountNumber": "1000012345678",
+              "accountType": "savings",
+              "bank": "Banco Unión",
+              "documentNumber": "1023456789",
+              "documentType": "NIT"
             },
             "type": "object"
           },
@@ -2216,7 +2221,7 @@
               "br_pix_qr",
               "pe_qr"
             ],
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           }
         },
@@ -2271,19 +2276,19 @@
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "fiatAmount": {
             "description": "BUY: what the person pays. SELL: what the person receives. Up to the currency’s decimals.",
-            "example": "125050",
+            "example": "1210",
             "type": "string"
           },
           "integratorAccountId": {
@@ -2321,7 +2326,7 @@
               "br_pix_qr",
               "pe_qr"
             ],
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "side": {
@@ -2377,7 +2382,7 @@
           },
           "to": {
             "description": "A G (account), M (muxed account) or C (contract) address, or an @handle.",
-            "example": "@maria_salta",
+            "example": "@maria_flores",
             "type": "string"
           },
           "token": {
@@ -2539,7 +2544,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "endedAt": {
@@ -2561,7 +2566,7 @@
           },
           "fiatAmount": {
             "description": "The local money that changes hands.",
-            "example": "125050.00",
+            "example": "1210.00",
             "type": "string"
           },
           "id": {
@@ -2636,7 +2641,7 @@
             "type": "string"
           },
           "price": {
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "protocolFeeBps": {
@@ -2654,7 +2659,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "sellerAddress": {
@@ -2851,7 +2856,7 @@
         "properties": {
           "code": {
             "description": "ISO 4217 code.",
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "decimals": {
@@ -2948,7 +2953,7 @@
         "description": "A payout item that never opened, and why.",
         "properties": {
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "externalReference": {
@@ -3195,7 +3200,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "endedAt": {
@@ -3205,7 +3210,7 @@
             "type": "string"
           },
           "fiatAmount": {
-            "example": "125050.00",
+            "example": "1210.00",
             "type": "string"
           },
           "id": {
@@ -3277,7 +3282,7 @@
             "type": "string"
           },
           "price": {
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "qr": {
@@ -3291,7 +3296,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "sellerAddress": {
@@ -3406,28 +3411,28 @@
         "description": "A QR payment’s scanned QR, for its merchant while the order is live: draw the QR from `payload` and pay it with your banking app, then mark the order paid.",
         "properties": {
           "amount": {
-            "example": "12500.00",
+            "example": "45.00",
             "nullable": true,
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "nullable": true,
             "type": "string"
           },
           "merchantCity": {
-            "example": "Salta",
+            "example": "Cusco",
             "nullable": true,
             "type": "string"
           },
           "merchantName": {
-            "example": "Panaderia La Salteña",
+            "example": "Bodega Lucho",
             "nullable": true,
             "type": "string"
           },
           "payload": {
             "description": "The exact text scanned (EMV), CRC included.",
-            "example": "00020101021243650016com.mercadolibre...6304ABCD",
+            "example": "0002010102123944Zm9vYmFy...6304ABCD",
             "type": "string"
           },
           "reference": {
@@ -3441,7 +3446,7 @@
               "pix",
               "pe-interoperable"
             ],
-            "example": "ar-interoperable",
+            "example": "pe-interoperable",
             "type": "string"
           }
         },
@@ -3620,7 +3625,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "id": {
@@ -3643,7 +3648,7 @@
           },
           "price": {
             "description": "Local money per one token.",
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "priceFresh": {
@@ -3662,7 +3667,7 @@
           },
           "rails": {
             "example": [
-              "ar_bank_transfer"
+              "bo_bank_transfer"
             ],
             "items": {
               "type": "string"
@@ -3776,7 +3781,7 @@
         "description": "The merchant of an order, as its client sees it.",
         "properties": {
           "displayName": {
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "nullable": true,
             "type": "string"
           }
@@ -4055,7 +4060,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "endedAt": {
@@ -4077,7 +4082,7 @@
           },
           "fiatAmount": {
             "description": "The local money that changes hands.",
-            "example": "125050.00",
+            "example": "1210.00",
             "type": "string"
           },
           "id": {
@@ -4152,7 +4157,7 @@
             "type": "string"
           },
           "price": {
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "protocolFeeBps": {
@@ -4170,7 +4175,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "sellerAddress": {
@@ -4478,8 +4483,11 @@
               "type": "string"
             },
             "example": {
-              "alias": "pampa.cambio",
-              "cuit": "20123456786"
+              "accountNumber": "1000012345678",
+              "accountType": "savings",
+              "bank": "Banco Unión",
+              "documentNumber": "1023456789",
+              "documentType": "NIT"
             },
             "type": "object"
           },
@@ -4489,7 +4497,7 @@
             "type": "string"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           }
         },
@@ -4548,7 +4556,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "details": {
@@ -4557,8 +4565,11 @@
             },
             "description": "The rail’s fields, normalized (`GET /v1/p2p/market` lists them per rail).",
             "example": {
-              "alias": "pampa.cambio",
-              "cuit": "20123456786"
+              "accountNumber": "1000012345678",
+              "accountType": "savings",
+              "bank": "Banco Unión",
+              "documentNumber": "1023456789",
+              "documentType": "NIT"
             },
             "type": "object"
           },
@@ -4577,12 +4588,12 @@
             "type": "string"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "summary": {
             "description": "A short, masked line.",
-            "example": "alias pampa.cambio",
+            "example": "Banco Unión ••••5678",
             "type": "string"
           },
           "updatedAt": {
@@ -4728,14 +4739,14 @@
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "externalReference": {
@@ -4761,7 +4772,7 @@
               "br_pix_qr",
               "pe_qr"
             ],
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           }
         },
@@ -4778,22 +4789,22 @@
         "properties": {
           "amount": {
             "description": "The amount a dynamic QR asks for; null for a static one.",
-            "example": "12500.00",
+            "example": "45.00",
             "nullable": true,
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "nullable": true,
             "type": "string"
           },
           "merchantCity": {
-            "example": "Salta",
+            "example": "Cusco",
             "nullable": true,
             "type": "string"
           },
           "merchantName": {
-            "example": "Panaderia La Salteña",
+            "example": "Bodega Lucho",
             "nullable": true,
             "type": "string"
           },
@@ -4803,7 +4814,7 @@
               "pix",
               "pe-interoperable"
             ],
-            "example": "ar-interoperable",
+            "example": "pe-interoperable",
             "type": "string"
           }
         },
@@ -4835,7 +4846,7 @@
             "type": "number"
           },
           "displayName": {
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "type": "string"
           },
           "disputesLost": {
@@ -4869,7 +4880,7 @@
             "type": "string"
           },
           "currency": {
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "expiresAt": {
@@ -4879,7 +4890,7 @@
           },
           "fiatAmount": {
             "description": "BUY: what the person pays. SELL: what the person receives.",
-            "example": "125050.00",
+            "example": "1210.00",
             "type": "string"
           },
           "id": {
@@ -4919,7 +4930,7 @@
           },
           "price": {
             "description": "Local money per one token.",
-            "example": "1250.5",
+            "example": "12.1",
             "type": "string"
           },
           "protocolFee": {
@@ -4942,7 +4953,7 @@
             "type": "object"
           },
           "rail": {
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "side": {
@@ -5011,12 +5022,12 @@
           },
           "description": {
             "description": "What it holds, in English.",
-            "example": "CBU or CVU, 22 digits (or give alias instead)",
+            "example": "Account number, 6 to 20 digits",
             "type": "string"
           },
           "name": {
             "description": "The key in `details`.",
-            "example": "cbu",
+            "example": "accountNumber",
             "type": "string"
           },
           "options": {
@@ -5060,7 +5071,7 @@
           },
           "id": {
             "description": "The rail id requests use.",
-            "example": "ar_bank_transfer",
+            "example": "bo_bank_transfer",
             "type": "string"
           },
           "kind": {
@@ -5074,7 +5085,7 @@
           },
           "name": {
             "description": "Its name, in English.",
-            "example": "Bank transfer (CBU, CVU or alias)",
+            "example": "Bank transfer",
             "type": "string"
           }
         },
@@ -5092,7 +5103,7 @@
         "properties": {
           "displayName": {
             "description": "The name people see on quotes when this account is a merchant.",
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "maxLength": 40,
             "minLength": 2,
             "type": "string"
@@ -5404,20 +5415,20 @@
         "properties": {
           "amount": {
             "description": "The amount received, local money.",
-            "example": "125050.00",
+            "example": "1210.00",
             "type": "string"
           },
           "currency": {
             "enum": [
               "BOB",
-              "ARS",
-              "BRL",
-              "MXN",
-              "COP",
               "PEN",
-              "CLP"
+              "BRL",
+              "ARS",
+              "CLP",
+              "COP",
+              "MXN"
             ],
-            "example": "ARS",
+            "example": "BOB",
             "type": "string"
           },
           "payerDocument": {
@@ -5456,7 +5467,7 @@
         "description": "What an account owner may change.",
         "properties": {
           "displayName": {
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "maxLength": 40,
             "minLength": 2,
             "type": "string"
@@ -5521,7 +5532,7 @@
           },
           "rails": {
             "example": [
-              "ar_bank_transfer"
+              "bo_bank_transfer"
             ],
             "items": {
               "enum": [
@@ -5546,7 +5557,7 @@
       "UpdateOrganization": {
         "properties": {
           "name": {
-            "example": "Pampa Cambio",
+            "example": "Oriente Cambio",
             "maxLength": 80,
             "minLength": 2,
             "type": "string"
@@ -5570,8 +5581,11 @@
             },
             "description": "Replaces the details whole, checked like a new method’s.",
             "example": {
-              "alias": "pampa.cambio2",
-              "cuit": "20123456786"
+              "accountNumber": "1000012345679",
+              "accountType": "savings",
+              "bank": "Banco Unión",
+              "documentNumber": "1023456789",
+              "documentType": "NIT"
             },
             "type": "object"
           },
@@ -5594,7 +5608,7 @@
         "properties": {
           "handle": {
             "description": "3 to 20 of a-z, 0-9 and underscore (a leading @ and upper case are accepted and normalised). Unique, case-insensitive; reserved words are refused.",
-            "example": "maria_salta",
+            "example": "maria_flores",
             "type": "string"
           }
         },
@@ -13340,7 +13354,7 @@
         ]
       },
       "post": {
-        "description": "Where one of your wallets receives local money, checked per rail (CBU/CVU check digits, CUIT, PIX keys, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.",
+        "description": "Where one of your wallets receives local money, checked per rail (Bolivian accounts with their CI or NIT, CCI, PIX keys, CBU/CVU check digits, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.",
         "operationId": "paymentMethodsCreate",
         "parameters": [
           {

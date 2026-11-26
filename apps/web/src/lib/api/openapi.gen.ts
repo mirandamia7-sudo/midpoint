@@ -1289,7 +1289,7 @@ export interface paths {
         put?: never;
         /**
          * Add a payment method
-         * @description Where one of your wallets receives local money, checked per rail (CBU/CVU check digits, CUIT, PIX keys, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.
+         * @description Where one of your wallets receives local money, checked per rail (Bolivian accounts with their CI or NIT, CCI, PIX keys, CBU/CVU check digits, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.
          */
         post: operations["paymentMethodsCreate"];
         delete?: never;
@@ -1512,7 +1512,7 @@ export interface components {
             createdAt: string;
             /**
              * @description The name people see on a quote when this account is the merchant. Required before it can publish an offer.
-             * @example Pampa Cambio
+             * @example Oriente Cambio
              */
             displayName: string | null;
             /** @example cm3p2pacc0001l70g8v5q3z2w */
@@ -1589,7 +1589,7 @@ export interface components {
             createdAt: string;
             /**
              * @description The name people see on a quote when this account is the merchant. Required before it can publish an offer.
-             * @example Pampa Cambio
+             * @example Oriente Cambio
              */
             displayName: string | null;
             /** @example cm3p2pacc0001l70g8v5q3z2w */
@@ -1752,7 +1752,7 @@ export interface components {
         };
         /** @description A charge as its payer sees it. */
         AppCharge: {
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             description: string | null;
             /** Format: date-time */
@@ -1762,14 +1762,14 @@ export interface components {
             id: string;
             /**
              * @description Who charges.
-             * @example Panaderia La Salteña
+             * @example Tienda Mamoré
              */
             merchantName: string;
             /** @example testnet */
             network: string;
             /** @description Null when the charge is not open or no quote prices it now. */
             payWithBalance: components["schemas"]["AppPayWithBalance"] | null;
-            /** @description Rails the pesos checkout offers now. */
+            /** @description Rails the local-money checkout offers now. */
             rails: string[];
             /** @enum {string} */
             status: "open" | "paid" | "cancelled" | "expired";
@@ -1815,7 +1815,7 @@ export interface components {
         AppHandle: {
             /** @example GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI */
             address: string;
-            /** @example maria_salta */
+            /** @example maria_flores */
             handle: string;
         };
         /** @description An order from your quote. A purchase (BUY) needs `payer`; a sale (SELL) needs `beneficiary`; a QR payment (`kind: QR_PAY`) needs the same `qr` its quote was made for. */
@@ -1866,20 +1866,20 @@ export interface components {
         AppProfile: {
             /** @example GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI */
             address: string;
-            /** @example maria_salta */
+            /** @example maria_flores */
             handle: string | null;
         };
         /** @description What the signed-in wallet wants to do. A trade: `side`, `network`, `token`, `currency`, `rail` and one of `fiatAmount` or `tokenAmount`. A QR payment: `kind: QR_PAY`, `network`, `token`, `qr` and, when the QR carries no amount, `fiatAmount` (the currency and rail come from the QR). */
         AppQuote: {
             /**
              * @description A trade only.
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency?: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency?: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /**
              * @description Local money. A trade: what the person pays (BUY) or receives (SELL). A QR payment: what the shop gets, required when the QR carries no amount and equal to it when it does.
-             * @example 125050
+             * @example 1210
              */
             fiatAmount?: string;
             /**
@@ -1894,13 +1894,13 @@ export interface components {
              */
             network: "local" | "testnet" | "mainnet";
             /**
-             * @description A QR payment: the scanned merchant QR exactly as read (Argentina’s interoperable QR, PIX, or Peru’s interoperable QR of Yape, Plin and the banks). Its CRC must check. A static QR carries no amount: give `fiatAmount`.
-             * @example 00020101021243650016com.mercadolibre...6304ABCD
+             * @description A QR payment: the scanned merchant QR exactly as read (Peru’s interoperable QR of Yape, Plin and the banks, Brazil’s PIX, or Argentina’s interoperable QR). Its CRC must check. A static QR carries no amount: give `fiatAmount`.
+             * @example 0002010102123944Zm9vYmFy...6304ABCD
              */
             qr?: string;
             /**
              * @description A trade only.
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              * @enum {string}
              */
             rail?: "bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr";
@@ -1997,7 +1997,7 @@ export interface components {
              * @example GCEZWKCA5VLDNRLN3RPRJMRZOX3Z6G5CHCGSNFHEYVXM3XOJMDS674JZ
              */
             to: string;
-            /** @example maria_salta */
+            /** @example maria_flores */
             toHandle: string | null;
             /**
              * @description The token’s symbol.
@@ -2047,8 +2047,9 @@ export interface components {
             /**
              * @description The rail’s fields, checked like a payment method’s.
              * @example {
-             *       "cbu": "2850590940090418135201",
-             *       "cuit": "27234567891"
+             *       "accountNumber": "1000023456781",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión"
              *     }
              */
             details: {
@@ -2066,8 +2067,9 @@ export interface components {
         BeneficiaryView: {
             /**
              * @example {
-             *       "cbu": "2850590940090418135201",
-             *       "cuit": "27234567891"
+             *       "accountNumber": "1000023456781",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión"
              *     }
              */
             details: {
@@ -2080,7 +2082,7 @@ export interface components {
             document: string | null;
             /** @example Ana López */
             holderName: string;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
         };
         /** @description A transaction to build for a wallet: what to do, from which wallet, with which arguments. See each action’s arguments in the route’s description. */
@@ -2138,7 +2140,7 @@ export interface components {
              * @example 2026-11-19T12:00:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /** @example Order #881 */
             description: string | null;
@@ -2170,7 +2172,7 @@ export interface components {
             paidCount: number;
             /**
              * @description Who the payer sees it is paying.
-             * @example Tienda Salta
+             * @example Tienda Mamoré
              */
             payeeName: string;
             /** @example cm3p2pacc0001l70g8v5q3z2w */
@@ -2205,7 +2207,7 @@ export interface components {
         };
         /** @description A charge as its payer sees it: the amount, what it is for and the rails merchants take for it right now. Nothing about who created it. */
         CheckoutChargeView: {
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /** @example Order #881 */
             description: string | null;
@@ -2220,7 +2222,7 @@ export interface components {
             id: string;
             /**
              * @description Who the payer is paying: the name the charge’s creator chose (`payeeName`).
-             * @example Tienda Salta
+             * @example Tienda Mamoré
              */
             merchantName: string;
             /** @example testnet */
@@ -2228,7 +2230,7 @@ export interface components {
             /**
              * @description Rails a merchant offers for this currency, network and token now.
              * @example [
-             *       "ar_bank_transfer"
+             *       "bo_bank_transfer"
              *     ]
              */
             rails: string[];
@@ -2249,7 +2251,7 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * @description Exactly what to transfer.
@@ -2260,7 +2262,7 @@ export interface components {
             id: string;
             /**
              * @description The merchant the payer transfers to (it fills the order), not the charge’s payee.
-             * @example Pampa Cambio
+             * @example Oriente Cambio
              */
             merchantName: string | null;
             /**
@@ -2280,7 +2282,7 @@ export interface components {
             paymentDeadline: string | null;
             /** @description Where to transfer, while the order is live. */
             paymentDetails: components["schemas"]["PaymentDetailsView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /**
              * Format: date-time
@@ -2303,7 +2305,7 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * @description Exactly what to transfer.
@@ -2314,7 +2316,7 @@ export interface components {
             id: string;
             /**
              * @description The merchant the payer transfers to (it fills the order), not the charge’s payee.
-             * @example Pampa Cambio
+             * @example Oriente Cambio
              */
             merchantName: string | null;
             /**
@@ -2329,7 +2331,7 @@ export interface components {
             paymentDeadline: string | null;
             /** @description Where to transfer, while the order is live. */
             paymentDetails: components["schemas"]["PaymentDetailsView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /**
              * Format: date-time
@@ -2386,10 +2388,10 @@ export interface components {
         /** @description A charge in local money: the payer pays it on the hosted page and the tokens go to `recipient`. */
         CreateChargeDto: {
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /** @example Order #881 */
             description?: string;
             /**
@@ -2415,7 +2417,7 @@ export interface components {
             network: "local" | "testnet" | "mainnet";
             /**
              * @description Who the payer is paying, as the payer page shows it (your business name). Never taken from your account.
-             * @example Tienda Salta
+             * @example Tienda Mamoré
              */
             payeeName: string;
             /**
@@ -2433,7 +2435,7 @@ export interface components {
         CreateCheckoutOrderDto: {
             payer: components["schemas"]["CheckoutPayerDto"];
             /**
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              * @enum {string}
              */
             rail: "bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr";
@@ -2451,10 +2453,10 @@ export interface components {
              */
             active?: boolean;
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /**
              * @description Largest order in local money.
              * @example 500000
@@ -2472,7 +2474,7 @@ export interface components {
             network: "local" | "testnet" | "mainnet";
             /**
              * @description Local money per one token, up to 6 decimals.
-             * @example 1250.5
+             * @example 12.1
              */
             price: string;
             /**
@@ -2484,7 +2486,7 @@ export interface components {
             /**
              * @description Rails of the currency you take. A SELL_TOKEN offer needs an active payment method on each.
              * @example [
-             *       "ar_bank_transfer"
+             *       "bo_bank_transfer"
              *     ]
              */
             rails: ("bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr")[];
@@ -2559,7 +2561,7 @@ export interface components {
             name: string;
         };
         CreateOrganization: {
-            /** @example Pampa Cambio */
+            /** @example Oriente Cambio */
             name: string;
         };
         /** @description Where an account receives local money on one rail. `details` takes the rail’s fields (`GET /v1/p2p/market` lists them) and is checked per rail, checksums included. */
@@ -2570,14 +2572,17 @@ export interface components {
              */
             accountId: string;
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /**
              * @example {
-             *       "alias": "pampa.cambio",
-             *       "cuit": "20123456786"
+             *       "accountNumber": "1000012345678",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión",
+             *       "documentNumber": "1023456789",
+             *       "documentType": "NIT"
              *     }
              */
             details: {
@@ -2588,7 +2593,7 @@ export interface components {
             /** @example Main account */
             label?: string;
             /**
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              * @enum {string}
              */
             rail: "bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr";
@@ -2612,13 +2617,13 @@ export interface components {
         /** @description What a person wants to trade. Give `fiatAmount` (local money) or `tokenAmount` (base units), not both. */
         CreateQuoteDto: {
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /**
              * @description BUY: what the person pays. SELL: what the person receives. Up to the currency’s decimals.
-             * @example 125050
+             * @example 1210
              */
             fiatAmount?: string;
             /**
@@ -2638,7 +2643,7 @@ export interface components {
              */
             network: "local" | "testnet" | "mainnet";
             /**
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              * @enum {string}
              */
             rail: "bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr";
@@ -2678,7 +2683,7 @@ export interface components {
             note?: string;
             /**
              * @description A G (account), M (muxed account) or C (contract) address, or an @handle.
-             * @example @maria_salta
+             * @example @maria_flores
              */
             to: string;
             /**
@@ -2748,7 +2753,7 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * Format: date-time
@@ -2764,7 +2769,7 @@ export interface components {
             failureReason: string | null;
             /**
              * @description The local money that changes hands.
-             * @example 125050.00
+             * @example 1210.00
              */
             fiatAmount: string;
             /** @example 3f1c2b7e-8d4a-4c1e-9b2f-6a5d4c3b2a10 */
@@ -2809,13 +2814,13 @@ export interface components {
             paymentDetails: components["schemas"]["PaymentDetailsView"] | null;
             /** @example null */
             payoutBatchId: string | null;
-            /** @example 1250.5 */
+            /** @example 12.1 */
             price: string;
             /** @example 50 */
             protocolFeeBps: number;
             /** @description A QR payment’s scanned QR, as its payer reads it (one order, not lists). */
             qr: components["schemas"]["QrSummaryView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /** @example GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI */
             sellerAddress: string;
@@ -2878,7 +2883,7 @@ export interface components {
         CurrencyView: {
             /**
              * @description ISO 4217 code.
-             * @example ARS
+             * @example BOB
              */
             code: string;
             /**
@@ -2910,7 +2915,7 @@ export interface components {
         };
         /** @description A payout item that never opened, and why. */
         FailedPayoutItemView: {
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /** @example payroll-2026-11-ana */
             externalReference: string | null;
@@ -3018,14 +3023,14 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * Format: date-time
              * @example null
              */
             endedAt: string | null;
-            /** @example 125050.00 */
+            /** @example 1210.00 */
             fiatAmount: string;
             /** @example 3f1c2b7e-8d4a-4c1e-9b2f-6a5d4c3b2a10 */
             id: string;
@@ -3061,11 +3066,11 @@ export interface components {
              * @example 2026-11-19T12:31:00.000Z
              */
             paymentDeadline: string | null;
-            /** @example 1250.5 */
+            /** @example 12.1 */
             price: string;
             /** @description A live QR payment’s QR: what the merchant pays. Null otherwise. */
             qr: components["schemas"]["MerchantQrView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /** @example GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI */
             sellerAddress: string;
@@ -3103,23 +3108,23 @@ export interface components {
         };
         /** @description A QR payment’s scanned QR, for its merchant while the order is live: draw the QR from `payload` and pay it with your banking app, then mark the order paid. */
         MerchantQrView: {
-            /** @example 12500.00 */
+            /** @example 45.00 */
             amount: string | null;
-            /** @example ARS */
+            /** @example BOB */
             currency: string | null;
-            /** @example Salta */
+            /** @example Cusco */
             merchantCity: string | null;
-            /** @example Panaderia La Salteña */
+            /** @example Bodega Lucho */
             merchantName: string | null;
             /**
              * @description The exact text scanned (EMV), CRC included.
-             * @example 00020101021243650016com.mercadolibre...6304ABCD
+             * @example 0002010102123944Zm9vYmFy...6304ABCD
              */
             payload: string;
             /** @example TICKET-0042 */
             reference: string | null;
             /**
-             * @example ar-interoperable
+             * @example pe-interoperable
              * @enum {string}
              */
             standard: "ar-interoperable" | "pix" | "pe-interoperable";
@@ -3226,7 +3231,7 @@ export interface components {
              * @example 2026-11-19T12:00:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /** @example cm3p2poff0001l70g8v5q3z2w */
             id: string;
@@ -3244,7 +3249,7 @@ export interface components {
             network: string;
             /**
              * @description Local money per one token.
-             * @example 1250.5
+             * @example 12.1
              */
             price: string;
             /**
@@ -3261,7 +3266,7 @@ export interface components {
             priceUpdatedAt: string;
             /**
              * @example [
-             *       "ar_bank_transfer"
+             *       "bo_bank_transfer"
              *     ]
              */
             rails: string[];
@@ -3305,7 +3310,7 @@ export interface components {
         };
         /** @description The merchant of an order, as its client sees it. */
         OrderMerchantView: {
-            /** @example Pampa Cambio */
+            /** @example Oriente Cambio */
             displayName: string | null;
         };
         /** @description A message’s file, its bytes in base64. */
@@ -3443,7 +3448,7 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * Format: date-time
@@ -3459,7 +3464,7 @@ export interface components {
             failureReason: string | null;
             /**
              * @description The local money that changes hands.
-             * @example 125050.00
+             * @example 1210.00
              */
             fiatAmount: string;
             /** @example 3f1c2b7e-8d4a-4c1e-9b2f-6a5d4c3b2a10 */
@@ -3504,13 +3509,13 @@ export interface components {
             paymentDetails: components["schemas"]["PaymentDetailsView"] | null;
             /** @example null */
             payoutBatchId: string | null;
-            /** @example 1250.5 */
+            /** @example 12.1 */
             price: string;
             /** @example 50 */
             protocolFeeBps: number;
             /** @description A QR payment’s scanned QR, as its payer reads it (one order, not lists). */
             qr: components["schemas"]["QrSummaryView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /** @example GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI */
             sellerAddress: string;
@@ -3652,8 +3657,11 @@ export interface components {
         PaymentDetailsView: {
             /**
              * @example {
-             *       "alias": "pampa.cambio",
-             *       "cuit": "20123456786"
+             *       "accountNumber": "1000012345678",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión",
+             *       "documentNumber": "1023456789",
+             *       "documentType": "NIT"
              *     }
              */
             details: {
@@ -3664,7 +3672,7 @@ export interface components {
              * @example María Pérez
              */
             holderName: string;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
         };
         /** @description A page of payment methods. */
@@ -3691,13 +3699,16 @@ export interface components {
              * @example 2026-11-19T12:01:00.000Z
              */
             createdAt: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * @description The rail’s fields, normalized (`GET /v1/p2p/market` lists them per rail).
              * @example {
-             *       "alias": "pampa.cambio",
-             *       "cuit": "20123456786"
+             *       "accountNumber": "1000012345678",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión",
+             *       "documentNumber": "1023456789",
+             *       "documentType": "NIT"
              *     }
              */
             details: {
@@ -3712,11 +3723,11 @@ export interface components {
             id: string;
             /** @example Main account */
             label: string | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /**
              * @description A short, masked line.
-             * @example alias pampa.cambio
+             * @example Banco Unión ••••5678
              */
             summary: string;
             /**
@@ -3779,10 +3790,10 @@ export interface components {
         PayoutItemDto: {
             beneficiary: components["schemas"]["BeneficiaryDto"];
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /** @example payroll-2026-11-ana */
             externalReference?: string;
             /**
@@ -3791,7 +3802,7 @@ export interface components {
              */
             fiatAmount: string;
             /**
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              * @enum {string}
              */
             rail: "bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr";
@@ -3800,17 +3811,17 @@ export interface components {
         QrSummaryView: {
             /**
              * @description The amount a dynamic QR asks for; null for a static one.
-             * @example 12500.00
+             * @example 45.00
              */
             amount: string | null;
-            /** @example ARS */
+            /** @example BOB */
             currency: string | null;
-            /** @example Salta */
+            /** @example Cusco */
             merchantCity: string | null;
-            /** @example Panaderia La Salteña */
+            /** @example Bodega Lucho */
             merchantName: string | null;
             /**
-             * @example ar-interoperable
+             * @example pe-interoperable
              * @enum {string}
              */
             standard: "ar-interoperable" | "pix" | "pe-interoperable";
@@ -3832,7 +3843,7 @@ export interface components {
              * @example 0.97
              */
             completionRate: number;
-            /** @example Pampa Cambio */
+            /** @example Oriente Cambio */
             displayName: string;
             /**
              * @description Disputes an arbiter resolved against it.
@@ -3852,7 +3863,7 @@ export interface components {
              * @example 0
              */
             bond: string;
-            /** @example ARS */
+            /** @example BOB */
             currency: string;
             /**
              * Format: date-time
@@ -3861,7 +3872,7 @@ export interface components {
             expiresAt: string;
             /**
              * @description BUY: what the person pays. SELL: what the person receives.
-             * @example 125050.00
+             * @example 1210.00
              */
             fiatAmount: string;
             /** @example cm3p2pqte0001l70g8v5q3z2w */
@@ -3889,7 +3900,7 @@ export interface components {
             network: string;
             /**
              * @description Local money per one token.
-             * @example 1250.5
+             * @example 12.1
              */
             price: string;
             /**
@@ -3901,7 +3912,7 @@ export interface components {
             protocolFeeBps: number;
             /** @description A QR payment’s scanned QR (merchant, city, amount); null otherwise. */
             qr: components["schemas"]["QrSummaryView"] | null;
-            /** @example ar_bank_transfer */
+            /** @example bo_bank_transfer */
             rail: string;
             /**
              * @description The person’s side: BUY receives tokens for local money, SELL sends tokens for it (a QR payment is a SELL).
@@ -3931,12 +3942,12 @@ export interface components {
             beneficiaryRequired: boolean;
             /**
              * @description What it holds, in English.
-             * @example CBU or CVU, 22 digits (or give alias instead)
+             * @example Account number, 6 to 20 digits
              */
             description: string;
             /**
              * @description The key in `details`.
-             * @example cbu
+             * @example accountNumber
              */
             name: string;
             /**
@@ -3963,7 +3974,7 @@ export interface components {
             fields: components["schemas"]["RailFieldView"][];
             /**
              * @description The rail id requests use.
-             * @example ar_bank_transfer
+             * @example bo_bank_transfer
              */
             id: string;
             /**
@@ -3974,7 +3985,7 @@ export interface components {
             kind: "account" | "qr";
             /**
              * @description Its name, in English.
-             * @example Bank transfer (CBU, CVU or alias)
+             * @example Bank transfer
              */
             name: string;
         };
@@ -3982,7 +3993,7 @@ export interface components {
         RegisterAccountDto: {
             /**
              * @description The name people see on quotes when this account is a merchant.
-             * @example Pampa Cambio
+             * @example Oriente Cambio
              */
             displayName?: string;
             /** @example Treasury wallet */
@@ -4127,14 +4138,14 @@ export interface components {
         TransferMatchesDto: {
             /**
              * @description The amount received, local money.
-             * @example 125050.00
+             * @example 1210.00
              */
             amount: string;
             /**
-             * @example ARS
+             * @example BOB
              * @enum {string}
              */
-            currency: "BOB" | "ARS" | "BRL" | "MXN" | "COP" | "PEN" | "CLP";
+            currency: "BOB" | "PEN" | "BRL" | "ARS" | "CLP" | "COP" | "MXN";
             /** @example 20123456786 */
             payerDocument?: string;
             /** @example Juan Gómez */
@@ -4154,7 +4165,7 @@ export interface components {
         };
         /** @description What an account owner may change. */
         UpdateAccountDto: {
-            /** @example Pampa Cambio */
+            /** @example Oriente Cambio */
             displayName?: string;
             /** @example Treasury wallet */
             label?: string;
@@ -4183,13 +4194,13 @@ export interface components {
             priceTtlSeconds?: number;
             /**
              * @example [
-             *       "ar_bank_transfer"
+             *       "bo_bank_transfer"
              *     ]
              */
             rails?: ("bo_bank_transfer" | "ar_bank_transfer" | "br_pix" | "mx_spei" | "co_bank_transfer" | "pe_bank_transfer" | "cl_bank_transfer" | "ar_qr" | "br_pix_qr" | "pe_qr")[];
         };
         UpdateOrganization: {
-            /** @example Pampa Cambio */
+            /** @example Oriente Cambio */
             name: string;
         };
         /** @description What may change on a payment method; its rail and currency never do. */
@@ -4199,8 +4210,11 @@ export interface components {
             /**
              * @description Replaces the details whole, checked like a new method’s.
              * @example {
-             *       "alias": "pampa.cambio2",
-             *       "cuit": "20123456786"
+             *       "accountNumber": "1000012345679",
+             *       "accountType": "savings",
+             *       "bank": "Banco Unión",
+             *       "documentNumber": "1023456789",
+             *       "documentType": "NIT"
              *     }
              */
             details?: {
@@ -4215,7 +4229,7 @@ export interface components {
         UpdateProfile: {
             /**
              * @description 3 to 20 of a-z, 0-9 and underscore (a leading @ and upper case are accepted and normalised). Unique, case-insensitive; reserved words are refused.
-             * @example maria_salta
+             * @example maria_flores
              */
             handle: string;
         };

@@ -49,16 +49,16 @@ export class CreateQuoteDto {
   @IsString()
   token!: string;
 
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
-  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'ar_bank_transfer' })
+  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'bo_bank_transfer' })
   @IsIn(P2P_RAIL_IDS)
   rail!: string;
 
   @ApiPropertyOptional({
-    example: '125050',
+    example: '1210',
     description:
       'BUY: what the person pays. SELL: what the person receives. Up to the currency’s decimals.',
   })
@@ -151,7 +151,7 @@ export class BeneficiaryDto {
   @ApiProperty({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { cbu: '2850590940090418135201', cuit: '27234567891' },
+    example: { bank: 'Banco Unión', accountType: 'savings', accountNumber: '1000023456781' },
     description: 'The rail’s fields, checked like a payment method’s.',
   })
   @IsObject()

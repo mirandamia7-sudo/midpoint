@@ -21,8 +21,8 @@ const arQr = (amount?: string) =>
     tlv('53', '032'),
     ...(amount ? [tlv('54', amount)] : []),
     tlv('58', 'AR'),
-    tlv('59', 'PANADERIA SALTENA'),
-    tlv('60', 'SALTA'),
+    tlv('59', 'PANADERIA EL HORNERO'),
+    tlv('60', 'BUENOS AIRES'),
     tlv('62', tlv('05', 'TICKET-42')),
   ]);
 
@@ -62,8 +62,8 @@ describe('QR payments', () => {
     expect(read).toMatchObject({ rail: 'ar_qr', currency: 'ARS', fiatAmount: '12500.00' });
     expect(read.summary).toEqual({
       standard: 'ar-interoperable',
-      merchantName: 'PANADERIA SALTENA',
-      merchantCity: 'SALTA',
+      merchantName: 'PANADERIA EL HORNERO',
+      merchantCity: 'BUENOS AIRES',
       amount: '12500.00',
       currency: 'ARS',
     });
@@ -167,6 +167,6 @@ describe('handles', () => {
     expect(isReservedHandle('admin', 'midpoint')).toBe(true);
     expect(isReservedHandle('midpoint_team', 'midpoint')).toBe(true);
     expect(isReservedHandle('newbrand', 'New Brand')).toBe(true);
-    expect(isReservedHandle('maria_salta', 'midpoint')).toBe(false);
+    expect(isReservedHandle('maria_flores', 'midpoint')).toBe(false);
   });
 });

@@ -31,7 +31,7 @@ const common = {
     apiReference: 'Referencia de la API',
     security: 'Modelo de seguridad',
     quickstart: 'Inicio rápido',
-    status: 'Hecho en Salta para toda América Latina.',
+    status: 'Hecho en Bolivia para toda América Latina.',
   },
   actions: {
     copy: 'Copiar',

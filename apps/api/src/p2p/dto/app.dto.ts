@@ -47,14 +47,14 @@ export class AppQuoteDto {
   @MaxLength(70)
   token!: string;
 
-  @ApiPropertyOptional({ enum: P2P_CURRENCY_CODES, example: 'ARS', description: 'A trade only.' })
+  @ApiPropertyOptional({ enum: P2P_CURRENCY_CODES, example: 'BOB', description: 'A trade only.' })
   @IsOptional()
   @IsIn(P2P_CURRENCY_CODES)
   currency?: string;
 
   @ApiPropertyOptional({
     enum: P2P_RAIL_IDS,
-    example: 'ar_bank_transfer',
+    example: 'bo_bank_transfer',
     description: 'A trade only.',
   })
   @IsOptional()
@@ -62,7 +62,7 @@ export class AppQuoteDto {
   rail?: string;
 
   @ApiPropertyOptional({
-    example: '125050',
+    example: '1210',
     description:
       'Local money. A trade: what the person pays (BUY) or receives (SELL). A QR payment: what the shop gets, required when the QR carries no amount and equal to it when it does.',
   })
@@ -79,9 +79,9 @@ export class AppQuoteDto {
   tokenAmount?: string;
 
   @ApiPropertyOptional({
-    example: '00020101021243650016com.mercadolibre...6304ABCD',
+    example: '0002010102123944Zm9vYmFy...6304ABCD',
     description:
-      'A QR payment: the scanned merchant QR exactly as read (Argentina’s interoperable QR, PIX, or Peru’s interoperable QR of Yape, Plin and the banks). Its CRC must check. A static QR carries no amount: give `fiatAmount`.',
+      'A QR payment: the scanned merchant QR exactly as read (Peru’s interoperable QR of Yape, Plin and the banks, Brazil’s PIX, or Argentina’s interoperable QR). Its CRC must check. A static QR carries no amount: give `fiatAmount`.',
   })
   @IsOptional()
   @IsString()

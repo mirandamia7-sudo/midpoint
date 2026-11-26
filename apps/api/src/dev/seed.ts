@@ -43,14 +43,14 @@ export interface SeedResult {
 const U = 10_000_000n;
 
 /** The seeded merchant's display name (a manual merchant: `npm run dev:simulate` plays it). */
-export const SEEDED_MERCHANT_NAME = 'Pampa Cambio';
+export const SEEDED_MERCHANT_NAME = 'Oriente Cambio';
 
 /** The seeded merchant's payment methods, Bolivia first. */
 export const SEEDED_MERCHANT_METHODS: readonly MerchantMethod[] = [
   {
     currency: 'BOB',
     rail: 'bo_bank_transfer',
-    holderName: 'Pampa Cambio SRL',
+    holderName: 'Oriente Cambio SRL',
     details: {
       bank: 'Banco Nacional de Bolivia',
       accountType: 'checking',
@@ -63,15 +63,15 @@ export const SEEDED_MERCHANT_METHODS: readonly MerchantMethod[] = [
   {
     currency: 'ARS',
     rail: 'ar_bank_transfer',
-    holderName: 'Pampa Cambio SRL',
+    holderName: 'Oriente Cambio SRL',
     details: { cbu: '2850590940090418135201', cuit: '20123456786' },
     label: 'Main ARS account',
   },
   {
     currency: 'BRL',
     rail: 'br_pix',
-    holderName: 'Pampa Cambio LTDA',
-    details: { keyType: 'email', key: 'pix@pampacambio.example' },
+    holderName: 'Oriente Cambio LTDA',
+    details: { keyType: 'email', key: 'pix@orientecambio.example' },
     label: 'PIX',
   },
 ];

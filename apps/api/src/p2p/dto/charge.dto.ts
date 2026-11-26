@@ -28,7 +28,7 @@ const FIAT = /^\d{1,15}(\.\d{1,2})?$/;
     'A charge in local money: the payer pays it on the hosted page and the tokens go to `recipient`.',
 })
 export class CreateChargeDto {
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
@@ -60,7 +60,7 @@ export class CreateChargeDto {
   recipient!: string;
 
   @ApiProperty({
-    example: 'Tienda Salta',
+    example: 'Tienda Mamoré',
     minLength: 2,
     maxLength: 60,
     description:
@@ -123,7 +123,7 @@ export class CheckoutPayerDto {
 
 @ApiSchema({ description: 'The payer starts paying a charge on one rail.' })
 export class CreateCheckoutOrderDto {
-  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'ar_bank_transfer' })
+  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'bo_bank_transfer' })
   @IsIn(P2P_RAIL_IDS)
   rail!: string;
 
@@ -137,7 +137,7 @@ export class CreateCheckoutOrderDto {
   description: 'One payout: an amount of local money to a beneficiary on one rail.',
 })
 export class PayoutItemDto {
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
@@ -148,7 +148,7 @@ export class PayoutItemDto {
   @Matches(FIAT, { message: 'fiatAmount must be a positive decimal' })
   fiatAmount!: string;
 
-  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'ar_bank_transfer' })
+  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'bo_bank_transfer' })
   @IsIn(P2P_RAIL_IDS)
   rail!: string;
 

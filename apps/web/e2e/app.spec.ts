@@ -16,7 +16,7 @@ test('sign in, claim a handle, and the home screen (Spanish)', async ({ page }) 
   await page.getByRole('button', { name: 'Guardar @usuario' }).click();
   await expect(page.getByText('Hola, @sofia_r')).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId('balance')).toHaveText('US$ 248,35');
-  await expect(page.getByText(/≈ .*ARS/)).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText(/≈ .*BOB/)).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole('navigation', { name: 'Secciones de la app' }).first()).toBeVisible();
   await expect(page.getByText('Recibiste de @lucia')).toBeVisible();
   await expectNoHorizontalScroll(page);
@@ -197,13 +197,13 @@ test("pay a shop's QR through a merchant: confirm, wait, the shop got paid, rele
   await page.goto('/app/scan');
   await page.getByLabel('Código, enlace, dirección o @usuario').fill(qr);
   await page.getByRole('button', { name: 'Leer' }).click();
-  await expect(page.getByTestId('shop-name')).toHaveText('Cafe El Molino');
-  await expect(page.locator('.marker')).toHaveText(/12\.500,00\sARS/);
+  await expect(page.getByTestId('shop-name')).toHaveText('Cafe El Balcon');
+  await expect(page.locator('.marker')).toHaveText(/45,00\sPEN/);
   await page.getByRole('button', { name: /^Pagar US\$/ }).click({ timeout: 15_000 });
   await expect(page.getByTestId('qr-status')).toBeVisible({ timeout: 20_000 });
   await page.getByRole('button', { name: 'Sí, el comercio cobró' }).click({ timeout: 30_000 });
   await page.getByRole('button', { name: 'Sí, el comercio cobró' }).click();
-  await expect(page.getByText('El comercio cobró 12.500,00 ARS.')).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText('El comercio cobró 45,00 PEN.')).toBeVisible({ timeout: 20_000 });
   await expectNoHorizontalScroll(page);
   expect(errors).toEqual([]);
 });
@@ -217,12 +217,14 @@ test('a QR the balance cannot cover: said up front, add money filled with what i
   await page.goto('/app/scan');
   await page.getByLabel('Código, enlace, dirección o @usuario').fill(qr);
   await page.getByRole('button', { name: 'Leer' }).click();
-  await expect(page.getByTestId('shop-name')).toHaveText('Cafe El Molino');
+  await expect(page.getByTestId('shop-name')).toHaveText('Cafe El Balcon');
   await expect(page.getByRole('heading', { name: 'Te falta saldo' })).toBeVisible();
   await expect(page.getByText(/Este pago cuesta aprox\. US\$/)).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole('button', { name: /^Pagar US\$/ })).toHaveCount(0);
   await page.getByRole('link', { name: 'Agregar saldo' }).click();
-  await expect(page.locator('#trade-amount')).toHaveValue('12750');
+  // In the person's own money (bolivianos), not the shop's soles.
+  await expect(page.locator('#trade-amount')).toHaveValue('148');
+  await expect(page.getByText('1 USDC = 12,05 BOB')).toBeVisible({ timeout: 15_000 });
   expect(errors).toEqual([]);
 });
 
@@ -281,13 +283,13 @@ test('withdraw: the payout account, one signature, the merchant pays, release (E
   expect(errors).toEqual([]);
 });
 
-test('pay a charge from the balance, or in pesos through the checkout (English)', async ({
+test('pay a charge from the balance, or in bolivianos through the checkout (English)', async ({
   page,
 }) => {
   const errors = trackErrors(page);
   await appSignIn(page, 'en', 'user', { path: '/app/charge/ch_pedido1042' });
-  await expect(page.getByText('Tienda Lerma')).toBeVisible({ timeout: 15_000 });
-  await expect(page.getByRole('link', { name: 'Pay in ARS by transfer' })).toHaveAttribute(
+  await expect(page.getByText('Tienda Mamoré')).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole('link', { name: 'Pay in BOB by transfer' })).toHaveAttribute(
     'href',
     '/pay/ch_pedido1042',
   );

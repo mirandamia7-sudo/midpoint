@@ -1,9 +1,9 @@
 # Midpoint: agent and contributor guide
 
-Midpoint is a peer-to-peer market for stablecoins (USDC) against local money (bank transfers, PIX,
-Argentina's interoperable QR...) on **Stellar**, with a public API, and a simple payments app on
-top of it (an installable PWA at `/app`). A user types an amount; the matching service picks a
-merchant (no ads book). Merchants keep liquidity in a Soroban contract; the contract locks each
+Midpoint is a Bolivian peer-to-peer market for stablecoins (USDC) against local money (bank
+transfers in bolivianos first, PIX, Peru's and Argentina's interoperable QRs...) on **Stellar**,
+with a public API, and a simple payments app on top of it (an installable PWA at `/app`). A user
+types an amount; the matching service picks a merchant (no ads book). Merchants keep liquidity in a Soroban contract; the contract locks each
 order's tokens until the party receiving the local money releases them. Users never pay network
 fees: the API fee-bumps their transactions.
 
@@ -22,7 +22,7 @@ keys) are part of the API contract.
 | Path                  | What                                                                                                                                                                             |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `packages/contracts`  | the Soroban `P2PMarket` contract (Rust), its committed artifact (wasm + spec as TypeScript) and its tests                                                                        |
-| `packages/payment-qr` | reads what the app scans or pastes: Stellar addresses, SEP-7, the app's payment and charge links, handles, EMVCo merchant QRs (PIX, AR interoperable)                            |
+| `packages/payment-qr` | reads what the app scans or pastes: Stellar addresses, SEP-7, the app's payment and charge links, handles, EMVCo merchant QRs (PE, PIX, AR interoperable)                        |
 | `apps/api`            | the public API (NestJS + Prisma + Postgres): accounts, offers, matching, orders, charges, payouts, webhooks, the app's routes, sponsored submission, the indexer and the matcher |
 | `apps/web`            | the web: the payments app (`/app`), the merchant dashboard, the hosted charge page, the docs and the landing                                                                     |
 | `packages/sdk`        | TypeScript client for the API, webhook verification and a reference merchant bot                                                                                                 |

@@ -112,11 +112,11 @@ export class SponsorView {
 
 @ApiSchema({ description: 'One field of a payment rail’s account details.' })
 export class RailFieldView {
-  @ApiProperty({ example: 'cbu', description: 'The key in `details`.' })
+  @ApiProperty({ example: 'accountNumber', description: 'The key in `details`.' })
   name!: string;
 
   @ApiProperty({
-    example: 'CBU or CVU, 22 digits (or give alias instead)',
+    example: 'Account number, 6 to 20 digits',
     description: 'What it holds, in English.',
   })
   description!: string;
@@ -146,13 +146,13 @@ export class RailFieldView {
 @ApiSchema({ description: 'A local payment rail and the details it needs.' })
 export class RailView {
   @ApiProperty({
-    example: 'ar_bank_transfer',
+    example: 'bo_bank_transfer',
     description: 'The rail id requests use.',
   })
   id!: string;
 
   @ApiProperty({
-    example: 'Bank transfer (CBU, CVU or alias)',
+    example: 'Bank transfer',
     description: 'Its name, in English.',
   })
   name!: string;
@@ -180,7 +180,7 @@ export class RailView {
   description: 'A local currency the market prices, with its rails.',
 })
 export class CurrencyView {
-  @ApiProperty({ example: 'ARS', description: 'ISO 4217 code.' })
+  @ApiProperty({ example: 'BOB', description: 'ISO 4217 code.' })
   code!: string;
 
   @ApiProperty({

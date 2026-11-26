@@ -11,7 +11,7 @@ const landing: typeof es = {
     open: 'Create account',
     merchant: 'I am a merchant',
     rails:
-      'Bank transfer in Bolivia, CVU or alias in Argentina, PIX in Brazil, SPEI in Mexico, and banks in Colombia, Peru and Chile.',
+      'Bank transfer in Bolivia, Peru, Argentina, Chile and Colombia, PIX in Brazil and SPEI in Mexico.',
   },
   slip: {
     caption:
@@ -55,7 +55,7 @@ const landing: typeof es = {
       },
       {
         title: 'Pay by QR',
-        body: 'Scan a shop’s QR in Argentina or a PIX in Brazil: a market merchant pays it for you in pesos or reais.',
+        body: 'Scan a shop’s QR in Peru, Brazil or Argentina: a market merchant pays it for you in that country’s money.',
       },
       {
         title: 'Add money and withdraw',

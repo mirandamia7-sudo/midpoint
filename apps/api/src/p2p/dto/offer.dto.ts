@@ -52,14 +52,14 @@ export class CreateOfferDto {
   @IsString()
   token!: string;
 
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
   @ApiProperty({
     enum: P2P_RAIL_IDS,
     isArray: true,
-    example: ['ar_bank_transfer'],
+    example: ['bo_bank_transfer'],
     description:
       'Rails of the currency you take. A SELL_TOKEN offer needs an active payment method on each.',
   })
@@ -70,7 +70,7 @@ export class CreateOfferDto {
   rails!: string[];
 
   @ApiProperty({
-    example: '1250.5',
+    example: '12.1',
     description: 'Local money per one token, up to 6 decimals.',
   })
   @Matches(DECIMAL, {
@@ -139,7 +139,7 @@ export class UpdateOfferDto {
   @ApiPropertyOptional({
     enum: P2P_RAIL_IDS,
     isArray: true,
-    example: ['ar_bank_transfer'],
+    example: ['bo_bank_transfer'],
   })
   @IsOptional()
   @IsArray()

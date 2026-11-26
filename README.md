@@ -1,9 +1,9 @@
 # Midpoint
 
-Midpoint is a payments app for sending money and paying across Latin America. People add money in
-their local currency (bolivianos first), keep a balance in dollars (USDC on Stellar) and send or
-pay it as local money in another country: a bank account in Argentina, a PIX key in Brazil, a shop's
-QR in Peru. Every exchange is a peer-to-peer order with a local merchant, protected by a Soroban
+Midpoint is a Bolivian payments app for sending money and paying across Latin America. People add
+money in bolivianos (or their own local currency), keep a balance in dollars (USDC on Stellar) and
+send or pay it as local money in another country: a shop's QR in Peru, a PIX key in Brazil, a bank
+account in Argentina or Chile. Every exchange is a peer-to-peer order with a local merchant, protected by a Soroban
 smart contract.
 
 **Test market:** https://web-production-dee4269a.up.railway.app (Stellar testnet, test money only).
@@ -13,13 +13,13 @@ smart contract.
 For people, the app at `/app` (an installable PWA, in Spanish and English):
 
 - Sign up with an email code or Google (Pollar wallets). Midpoint pays the Stellar network fees.
-- Add money and cash out by bank transfer in bolivianos, Argentine, Mexican, Colombian and Chilean
-  pesos, reais (PIX) or soles.
+- Add money and cash out by bank transfer in bolivianos, or in soles, reais (PIX), and Argentine,
+  Chilean, Colombian and Mexican pesos.
 - Send dollars to anyone by `@handle`, link or QR.
-- Pay a shop's QR in another country: Argentina's interoperable QR, Brazil's PIX and Peru's Yape and
-  Plin.
-- Send money to a bank account abroad, such as a CBU, CVU or alias in Argentina, a CCI in Peru or a
-  CLABE in Mexico.
+- Pay a shop's QR in another country: Peru's QR (Yape, Plin and the banks), Brazil's PIX and
+  Argentina's interoperable QR.
+- Send money to a bank account in Bolivia or abroad, such as a CCI in Peru, a PIX key in Brazil or a
+  CBU, CVU or alias in Argentina.
 - Pay a business's charge from its QR or link.
 - Chat with the merchant on each order and get the transfer receipt.
 

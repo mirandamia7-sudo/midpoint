@@ -37,16 +37,16 @@ const Midpoint = createMidpointClient({
 // Public: networks, tokens, currencies and rails.
 const market = await unwrap(midpoint.GET('/v1/market'));
 
-// A quote: 125050 ARS of USDC on Stellar testnet, paid by bank transfer.
+// A quote: 1210 BOB of USDC on Stellar testnet, paid by bank transfer.
 const quote = await unwrap(
   midpoint.POST('/v1/p2p/quotes', {
     body: {
       side: 'BUY',
       network: 'testnet',
       token: 'USDC',
-      currency: 'ARS',
-      rail: 'ar_bank_transfer',
-      fiatAmount: '125050.00',
+      currency: 'BOB',
+      rail: 'bo_bank_transfer',
+      fiatAmount: '1210.00',
       integratorFeeBps: 0,
     },
   }),
@@ -142,10 +142,10 @@ app.post('/hooks/midpoint', express.raw({ type: 'application/json' }), (req, res
 
 ```json
 {
-  "currency": "ARS",
-  "amount": "125050.00",
+  "currency": "BOB",
+  "amount": "1210.00",
   "payerName": "Juan Gomez",
-  "payerDocument": "20123456786",
+  "payerDocument": "4829175",
   "reference": "TRX-88213",
   "receivedAt": "2026-11-19T12:12:40Z"
 }

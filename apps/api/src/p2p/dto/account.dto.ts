@@ -54,7 +54,7 @@ export class RegisterAccountDto {
   label?: string;
 
   @ApiPropertyOptional({
-    example: 'Pampa Cambio',
+    example: 'Oriente Cambio',
     description: 'The name people see on quotes when this account is a merchant.',
     minLength: 2,
     maxLength: 40,
@@ -74,7 +74,7 @@ export class UpdateAccountDto {
   @MaxLength(P2P_TEXT_MAX)
   label?: string;
 
-  @ApiPropertyOptional({ example: 'Pampa Cambio', minLength: 2, maxLength: 40 })
+  @ApiPropertyOptional({ example: 'Oriente Cambio', minLength: 2, maxLength: 40 })
   @IsOptional()
   @IsString()
   @MinLength(2)

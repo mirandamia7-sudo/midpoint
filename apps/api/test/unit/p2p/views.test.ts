@@ -21,7 +21,7 @@ const ROW: P2pOrderRow = {
   merchantAccountId: 'acc_merchant',
   merchantOrganizationId: 'org_merchant',
   merchantAddress: 'GBZXN7PIRZGNMHGA7MUUUF4GWPY5AYPV6LY4UV2GL6VJGIQRXFDNMADI',
-  merchantDisplayName: 'Pampa Cambio',
+  merchantDisplayName: 'Oriente Cambio',
   merchantPaymentMethodId: 'pm_1',
   currency: 'ARS',
   rail: 'ar_bank_transfer',
@@ -137,7 +137,7 @@ describe('P2P views', () => {
       externalReference: 'client-secret-ref-881',
       chargeId: ROW.chargeId,
       integratorFeeBps: 25,
-      merchant: { displayName: 'Pampa Cambio' },
+      merchant: { displayName: 'Oriente Cambio' },
     });
     for (const key of [
       ...PERSONAL,

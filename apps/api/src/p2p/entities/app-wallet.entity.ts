@@ -12,13 +12,13 @@ export class ProfileView {
   @ApiProperty({ example: G })
   address!: string;
 
-  @ApiProperty({ type: String, nullable: true, example: 'maria_salta' })
+  @ApiProperty({ type: String, nullable: true, example: 'maria_flores' })
   handle!: string | null;
 }
 
 @ApiSchema({ name: 'AppHandle', description: 'Who an @handle is.' })
 export class HandleView {
-  @ApiProperty({ example: 'maria_salta' })
+  @ApiProperty({ example: 'maria_flores' })
   handle!: string;
 
   @ApiProperty({ example: G })
@@ -124,7 +124,7 @@ export class TransferView {
   @ApiProperty({ example: G2, description: 'As sent to: a G, M or C address.' })
   to!: string;
 
-  @ApiProperty({ type: String, nullable: true, example: 'maria_salta' })
+  @ApiProperty({ type: String, nullable: true, example: 'maria_flores' })
   toHandle!: string | null;
 
   @ApiProperty({ type: String, nullable: true, example: 'Empanadas' })
@@ -219,13 +219,13 @@ export class AppChargeView {
   @ApiProperty() id!: string;
   @ApiProperty({ example: 'testnet' }) network!: string;
   @ApiProperty({ example: 'USDC' }) tokenSymbol!: string;
-  @ApiProperty({ example: 'ARS' }) currency!: string;
+  @ApiProperty({ example: 'BOB' }) currency!: string;
   @ApiProperty({ example: '25000.00' }) fiatAmount!: string;
-  @ApiProperty({ example: 'Panaderia La Salteña', description: 'Who charges.' })
+  @ApiProperty({ example: 'Tienda Mamoré', description: 'Who charges.' })
   merchantName!: string;
   @ApiProperty({ type: String, nullable: true }) description!: string | null;
   @ApiProperty({ enum: ['open', 'paid', 'cancelled', 'expired'] }) status!: string;
-  @ApiProperty({ type: [String], description: 'Rails the pesos checkout offers now.' })
+  @ApiProperty({ type: [String], description: 'Rails the local-money checkout offers now.' })
   rails!: string[];
   @ApiProperty() expiresAt!: Date;
 

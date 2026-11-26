@@ -39,7 +39,7 @@ const AR_QR = withCrc(
     tlv('54', '1500.50') +
     tlv('58', 'AR') +
     tlv('59', 'Cafe El Molino') +
-    tlv('60', 'Salta') +
+    tlv('60', 'Buenos Aires') +
     tlv('62', tlv('05', 'MESA-4')),
 );
 
@@ -99,7 +99,7 @@ describe('EMV merchant QR', () => {
       countryCode: 'AR',
       amount: '1500.50',
       merchantName: 'Cafe El Molino',
-      merchantCity: 'Salta',
+      merchantCity: 'Buenos Aires',
       reference: 'MESA-4',
       accounts: ['com.mercadolibre'],
     });
@@ -149,7 +149,7 @@ describe('EMV merchant QR', () => {
 
   it('refuses repeated fields, a second PIX account and an amount in an unknown currency', () => {
     const base = tlv('00', '01') + tlv('01', '12');
-    const tail = tlv('58', 'AR') + tlv('59', 'Cafe') + tlv('60', 'Salta');
+    const tail = tlv('58', 'AR') + tlv('59', 'Cafe') + tlv('60', 'Buenos Aires');
     // Two amounts: a banking app might pay the other one.
     expect(
       parseEmv(withCrc(base + tlv('53', '032') + tlv('54', '10.00') + tlv('54', '9999.00') + tail)),
@@ -186,7 +186,7 @@ describe('EMV merchant QR', () => {
 
   it('fails closed on prototype-key currencies and unparsable account templates', () => {
     const base = tlv('00', '01') + tlv('01', '12');
-    const tail = tlv('58', 'AR') + tlv('59', 'Cafe') + tlv('60', 'Salta');
+    const tail = tlv('58', 'AR') + tlv('59', 'Cafe') + tlv('60', 'Buenos Aires');
     for (const code of ['constructor', 'toString', '__proto__', '32']) {
       expect(parseEmv(withCrc(base + tlv('53', code) + tlv('54', '10.00') + tail))).toEqual({
         ok: false,

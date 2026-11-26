@@ -73,7 +73,7 @@ export class OrderSettlementView {
     "The merchant's account to pay, shown to the client of a live purchase or charge only.",
 })
 export class PaymentDetailsView {
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
   @ApiProperty({
@@ -85,14 +85,20 @@ export class PaymentDetailsView {
   @ApiProperty({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { alias: 'pampa.cambio', cuit: '20123456786' },
+    example: {
+      bank: 'Banco Unión',
+      accountType: 'savings',
+      accountNumber: '1000012345678',
+      documentType: 'NIT',
+      documentNumber: '1023456789',
+    },
   })
   details!: Record<string, string>;
 }
 
 @ApiSchema({ description: 'The merchant of an order, as its client sees it.' })
 export class OrderMerchantView {
-  @ApiProperty({ type: String, nullable: true, example: 'Pampa Cambio' })
+  @ApiProperty({ type: String, nullable: true, example: 'Oriente Cambio' })
   displayName!: string | null;
 }
 
@@ -101,24 +107,24 @@ export class OrderMerchantView {
     'What a QR payment’s scanned QR reads, for the person who scanned it (never the payload itself).',
 })
 export class QrSummaryView {
-  @ApiProperty({ enum: P2P_QR_STANDARDS, example: 'ar-interoperable' })
+  @ApiProperty({ enum: P2P_QR_STANDARDS, example: 'pe-interoperable' })
   standard!: string;
 
-  @ApiProperty({ type: String, nullable: true, example: 'Panaderia La Salteña' })
+  @ApiProperty({ type: String, nullable: true, example: 'Bodega Lucho' })
   merchantName!: string | null;
 
-  @ApiProperty({ type: String, nullable: true, example: 'Salta' })
+  @ApiProperty({ type: String, nullable: true, example: 'Cusco' })
   merchantCity!: string | null;
 
   @ApiProperty({
     type: String,
     nullable: true,
-    example: '12500.00',
+    example: '45.00',
     description: 'The amount a dynamic QR asks for; null for a static one.',
   })
   amount!: string | null;
 
-  @ApiProperty({ type: String, nullable: true, example: 'ARS' })
+  @ApiProperty({ type: String, nullable: true, example: 'BOB' })
   currency!: string | null;
 }
 
@@ -128,24 +134,24 @@ export class QrSummaryView {
 })
 export class MerchantQrView {
   @ApiProperty({
-    example: '00020101021243650016com.mercadolibre...6304ABCD',
+    example: '0002010102123944Zm9vYmFy...6304ABCD',
     description: 'The exact text scanned (EMV), CRC included.',
   })
   payload!: string;
 
-  @ApiProperty({ enum: P2P_QR_STANDARDS, example: 'ar-interoperable' })
+  @ApiProperty({ enum: P2P_QR_STANDARDS, example: 'pe-interoperable' })
   standard!: string;
 
-  @ApiProperty({ type: String, nullable: true, example: 'Panaderia La Salteña' })
+  @ApiProperty({ type: String, nullable: true, example: 'Bodega Lucho' })
   merchantName!: string | null;
 
-  @ApiProperty({ type: String, nullable: true, example: 'Salta' })
+  @ApiProperty({ type: String, nullable: true, example: 'Cusco' })
   merchantCity!: string | null;
 
-  @ApiProperty({ type: String, nullable: true, example: '12500.00' })
+  @ApiProperty({ type: String, nullable: true, example: '45.00' })
   amount!: string | null;
 
-  @ApiProperty({ type: String, nullable: true, example: 'ARS' })
+  @ApiProperty({ type: String, nullable: true, example: 'BOB' })
   currency!: string | null;
 
   @ApiProperty({ type: String, nullable: true, example: 'TICKET-0042' })
@@ -190,17 +196,17 @@ export class OrderView {
   @ApiProperty({ example: 7 })
   tokenDecimals!: number;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
-  @ApiProperty({ example: '1250.5' })
+  @ApiProperty({ example: '12.1' })
   price!: string;
 
   @ApiProperty({
-    example: '125050.00',
+    example: '1210.00',
     description: 'The local money that changes hands.',
   })
   fiatAmount!: string;
@@ -386,13 +392,13 @@ export class BeneficiaryView {
   })
   document!: string | null;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
   @ApiProperty({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { cbu: '2850590940090418135201', cuit: '27234567891' },
+    example: { bank: 'Banco Unión', accountType: 'savings', accountNumber: '1000023456781' },
   })
   details!: Record<string, string>;
 }
@@ -445,16 +451,16 @@ export class MerchantOrderView {
   @ApiProperty({ example: 7 })
   tokenDecimals!: number;
 
-  @ApiProperty({ example: 'ARS' })
+  @ApiProperty({ example: 'BOB' })
   currency!: string;
 
-  @ApiProperty({ example: 'ar_bank_transfer' })
+  @ApiProperty({ example: 'bo_bank_transfer' })
   rail!: string;
 
-  @ApiProperty({ example: '1250.5' })
+  @ApiProperty({ example: '12.1' })
   price!: string;
 
-  @ApiProperty({ example: '125050.00' })
+  @ApiProperty({ example: '1210.00' })
   fiatAmount!: string;
 
   @ApiProperty({ example: '100000000' })

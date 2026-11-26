@@ -58,11 +58,12 @@ export function peQr(input: { merchant: string; city: string; amount: string | n
   );
 }
 
-/** The QRs the demo uses: a café's dynamic QR in Salta and a kiosk's static one, a PIX, and a
-    Yape QR in Lima. */
+/** The QRs the demo uses, the shops a person from Bolivia pays abroad: a café's dynamic QR in
+    Cusco, a corner shop's static PIX in Corumbá, a bakery's PIX with an amount, and a Yape QR in
+    Lima. */
 export const DEMO_QRS = {
-  cafe: arQr({ merchant: 'Cafe El Molino', city: 'Salta', amount: '12500.00', reference: 'MESA-4' }),
-  kiosk: arQr({ merchant: 'Kiosco La Esquina', city: 'Salta', amount: null }),
+  cafe: peQr({ merchant: 'Cafe El Balcon', city: 'Cusco', amount: '45.00' }),
+  kiosk: pixQr({ merchant: 'Mercadinho Fronteira', city: 'CORUMBA', amount: null }),
   pix: pixQr({ merchant: 'Padaria Boa Vista', city: 'SAO PAULO', amount: '32.50' }),
   yape: peQr({ merchant: 'BODEGA LUCHO', city: 'Lima', amount: null }),
 };

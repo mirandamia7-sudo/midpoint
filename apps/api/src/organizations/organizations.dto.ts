@@ -14,7 +14,7 @@ import { ACCOUNT_ADDRESS_RE } from '@/common/stellar';
 
 @ApiSchema({ name: 'CreateOrganization' })
 export class CreateOrganizationDto {
-  @ApiProperty({ example: 'Pampa Cambio', minLength: 2, maxLength: 80 })
+  @ApiProperty({ example: 'Oriente Cambio', minLength: 2, maxLength: 80 })
   @IsString()
   @MinLength(2)
   @MaxLength(80)

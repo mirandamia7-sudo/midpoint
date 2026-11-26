@@ -1,10 +1,10 @@
-/* Pay a shop's local-money QR (Argentina's interoperable QR, Brazil's PIX) through a market
+/* Pay a shop's local-money QR (Peru's, Brazil's PIX, Argentina's interoperable QR) through a market
    merchant: the shop's name and city, the amount in local money (the QR's own when it carries one,
    typed when it is static), the USDC it costs from the quote; one signature locks the USDC
    (`open_with_deposit`, pinned to the quote and the QR payment's fixed windows), then the order's
    own screen follows the merchant. A balance that cannot cover the payment at the market's
-   approximate price is said up front, with "add money" already filled with what is missing, and
-   no quote is asked for. */
+   approximate price is said up front, with "add money" already filled with what is missing in the
+   person's own money, and no quote is asked for. */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { parseEmv } from '@midpoint/payment-qr';
@@ -45,7 +45,15 @@ export default function PayQr() {
   const navigate = useNavigate();
   const location = useLocation();
   const { session } = useSession();
-  const { market, network, token, balance, refresh } = useAppData();
+  const {
+    market,
+    network,
+    token,
+    balance,
+    refresh,
+    currency: home,
+    price: homePrice,
+  } = useAppData();
   const fmtUsd = useUsd();
   const payload = (location.state as { qr?: string } | null)?.qr ?? keptQr();
   const qr = useMemo(() => {
@@ -131,11 +139,15 @@ export default function PayQr() {
   const short = !!units && BigInt(units) > have;
   const currency = qr.currency ?? '';
 
-  /** "Add money" filled with what is missing, in the QR's currency (2 % over, for the spread). */
-  const topUp = (needUnits: string | null, price: number | null) => {
+  /** "Add money" filled with what is missing, in the person's own money (the shop's QR may be in
+      another country's): 2 % over, for the spread. */
+  const topUp = (needUnits: string | null) => {
     const missing = needUnits ? Number(BigInt(needUnits) - have) / 10 ** token.decimals : 0;
-    const amount = price && missing > 0 ? Math.ceil(missing * price * 1.02) : null;
-    const params = new URLSearchParams({ currency, ...(amount ? { amount: String(amount) } : {}) });
+    const amount = homePrice && missing > 0 ? Math.ceil(missing * homePrice * 1.02) : null;
+    const params = new URLSearchParams({
+      currency: home,
+      ...(amount ? { amount: String(amount) } : {}),
+    });
     return (
       <section className="sheet flex flex-col gap-3 p-4" aria-labelledby="topup-h" role="status">
         <h2 id="topup-h" className="text-[1.0625rem]">
@@ -210,7 +222,7 @@ export default function PayQr() {
           </div>
         )}
 
-        {rail && shortUpFront && topUp(approxUnits, approx ?? null)}
+        {rail && shortUpFront && topUp(approxUnits)}
         {quote === 'loading' && <Skeleton className="h-32" />}
         {quote === 'none' && <Notice tone="warn">{q.noQuote}</Notice>}
         {quote === 'untrusted' && <Notice tone="error" stay>{q.untrusted}</Notice>}
@@ -233,7 +245,7 @@ export default function PayQr() {
               <p className="mt-2 text-[0.9375rem] text-ink-2">{q.how}</p>
             </details>
             {short ? (
-              topUp(units, Number(live.q.price) || null)
+              topUp(units)
             ) : (
               <SignFlow
                 network={network}

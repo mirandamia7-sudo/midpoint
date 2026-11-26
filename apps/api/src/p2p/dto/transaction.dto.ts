@@ -51,12 +51,12 @@ export class BuildTransactionDto {
     'An incoming bank transfer as your bank notified it: the orders it most likely settles come back with their release ready.',
 })
 export class TransferMatchesDto {
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
   @ApiProperty({
-    example: '125050.00',
+    example: '1210.00',
     description: 'The amount received, local money.',
   })
   @Matches(/^\d{1,15}(\.\d{1,2})?$/, {

@@ -15,11 +15,11 @@ say `{brand}`.
 | `/app/send?to=&amount=&note=` | send to an `@handle` or address (also what a payment link opens) |
 | `/app/receive` | my QR: a payment link, or a SEP-7 request for other Stellar wallets |
 | `/app/add`, `/app/withdraw` | buy and sell USDC (the market's BUY and SELL), then `/app/order/{id}` |
-| `/app/pay-qr`, `/app/qr/{id}` | pay a shop's QR (Argentina's interoperable QR, PIX) through a market merchant |
+| `/app/pay-qr`, `/app/qr/{id}` | pay a shop's QR (Peru's, PIX, Argentina's interoperable QR) through a market merchant |
 | `/app/charge/{id}` | pay a business's charge from the balance (or in local money at `/pay/{id}`) |
 | `/app/activity`, `/app/activity/{transfer,order}/{id}` | movements, and one with its status timeline |
 | `/app/me` | handle, address, network, currency, language, theme, install, recovery, sign out |
-| `/pay/{chargeId}` (also `/c/{chargeId}`) | the hosted charge page the API links to (pesos checkout) |
+| `/pay/{chargeId}` (also `/c/{chargeId}`) | the hosted charge page the API links to (local-money checkout) |
 | `/dashboard/*` | overview, liquidity, offers, payment methods, orders, charges, payouts, API keys, webhooks, team |
 | `/docs/*` | guides and the API reference (from `apps/api/openapi.json`) |
 
@@ -64,7 +64,7 @@ A `StellarWallet` (`src/lib/wallet/types.ts`) is one of:
   `stellar.sep10.sign` and this app's configured domains. A passkey smart wallet (a C address)
   cannot sign SEP-10 or classic transactions and is refused.
 - **`demo`** (mock mode only): a key derived from a fixed public seed per demo persona (a person,
-  Norte Cambios, Tienda Lerma, a new wallet). The sign-in screens look as in production: any
+  Norte Cambios, Tienda Mamoré, a new wallet). The sign-in screens look as in production: any
   email and any 6-digit code; `<persona>@demo.test` picks the persona (`personaForEmail`).
 - **`dev-key`** (development builds only): one of the dev stack's printed test secret keys, signed
   in this tab, to use a local or testnet stack without Pollar. Shown under the sign-in form only

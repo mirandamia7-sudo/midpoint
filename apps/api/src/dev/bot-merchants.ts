@@ -49,9 +49,11 @@ import { P2P_CURRENCIES } from '@/p2p/domain/constants';
  * on purpose and never used on mainnet.
  */
 
+/** A bot's key in the saved state. Kept when a display name changes ('pampa' is Illimani Pagos), so
+    a running market keeps its funded merchants. */
 export type BotMerchantSlug = 'andes' | 'pampa' | 'rio';
 
-/** The QR rails a bot pays shop QRs on: Argentina's, PIX and Peru's (Yape, Plin, banks). */
+/** The QR rails a bot pays shop QRs on: Peru's (Yape, Plin, banks), PIX and Argentina's. */
 export type BotQrRail = 'ar_qr' | 'br_pix_qr' | 'pe_qr';
 
 /** A rail account the merchant collects on (local money in) and pays from. */
@@ -131,13 +133,13 @@ export const BOT_MERCHANTS: readonly BotMerchantProfile[] = [
   },
   {
     slug: 'pampa',
-    displayName: 'Pampa Pagos',
+    displayName: 'Illimani Pagos',
     spreadBps: 90,
     methods: [
       {
         currency: 'BOB',
         rail: 'bo_bank_transfer',
-        holderName: 'Pampa Pagos SRL',
+        holderName: 'Illimani Pagos SRL',
         details: {
           bank: 'Banco Mercantil Santa Cruz',
           accountType: 'checking',
@@ -149,25 +151,25 @@ export const BOT_MERCHANTS: readonly BotMerchantProfile[] = [
       {
         currency: 'ARS',
         rail: 'ar_bank_transfer',
-        holderName: 'Pampa Pagos SA',
+        holderName: 'Illimani Pagos SA',
         details: { cbu: '0170099222000012345670', cuit: '30712345698' },
       },
       {
         currency: 'BRL',
         rail: 'br_pix',
-        holderName: 'Pampa Pagos LTDA',
-        details: { keyType: 'email', key: 'pix@pampapagos.example' },
+        holderName: 'Illimani Pagos LTDA',
+        details: { keyType: 'email', key: 'pix@illimanipagos.example' },
       },
       {
         currency: 'MXN',
         rail: 'mx_spei',
-        holderName: 'Pampa Pagos SA de CV',
+        holderName: 'Illimani Pagos SA de CV',
         details: { clabe: '002180012345678906' },
       },
       {
         currency: 'CLP',
         rail: 'cl_bank_transfer',
-        holderName: 'Pampa Pagos SpA',
+        holderName: 'Illimani Pagos SpA',
         details: {
           bank: 'Banco Santander',
           accountType: 'vista',

@@ -24,8 +24,8 @@ export const SNIPPETS: Record<string, Snippet> = {
 #        "explorerUrl": "https://stellar.expert/explorer/testnet",
 #        "contract": "C...", "protocolFeeBps": 30, "paused": false,
 #        "tokens": [ { "symbol": "USDC", "code": "USDC", "issuer": "G...", "contract": "C...", "decimals": 7 } ] } ],
-#      "currencies": [ { "code": "ARS", "decimals": 2,
-#        "rails": [ { "id": "ar_bank_transfer", "fields": [...] }, { "id": "ar_qr", "fields": [] } ] } ],
+#      "currencies": [ { "code": "BOB", "decimals": 2,
+#        "rails": [ { "id": "bo_bank_transfer", "fields": [...] } ] }, ... ],
 #      "bondBps": 1000, "maxIntegratorFeeBps": 500, "matcher": "G...", "sponsor": { "enabled": true },
 #      "windows": { "buyPaymentWindow": 1800, "sellAcceptWindow": 300,
 #                   "sellPaymentWindow": 1800, "sellSettleWindow": 21600 } }`,
@@ -117,9 +117,10 @@ while (r.status === 'PENDING') {
     code: `curl -X POST $API/payment-methods -H "$AUTH" -H "Content-Type: application/json" \\
   -d '{
     "accountId": "ACCOUNT_ID",
-    "rail": "ar_bank_transfer",
+    "rail": "bo_bank_transfer",
     "holderName": "Norte Cambios SRL",
-    "details": { "alias": "norte.cambios.ars", "cuit": "30712345679" },
+    "details": { "bank": "Banco Unión", "accountType": "checking", "accountNumber": "1000023456789",
+                 "documentType": "NIT", "documentNumber": "1020304025" },
     "label": "Main account"
   }'`,
   },
@@ -132,12 +133,12 @@ while (r.status === 'PENDING') {
     "side": "SELL_TOKEN",
     "network": "testnet",
     "token": "USDC",
-    "currency": "ARS",
-    "rails": ["ar_bank_transfer"],
-    "price": "1488.50",
+    "currency": "BOB",
+    "rails": ["bo_bank_transfer"],
+    "price": "12.05",
     "priceTtlSeconds": 600,
-    "minFiat": "10000",
-    "maxFiat": "2000000",
+    "minFiat": "70",
+    "maxFiat": "14000",
     "active": true
   }'`,
   },
@@ -147,8 +148,8 @@ while (r.status === 'PENDING') {
     code: `# Pay shops' QRs for people (QR_PAY): a BUY_TOKEN offer on the QR rails.
 curl -X POST $API/offers -H "$AUTH" -H "Content-Type: application/json" \\
   -d '{ "accountId": "ACCOUNT_ID", "side": "BUY_TOKEN", "network": "testnet", "token": "USDC",
-        "currency": "ARS", "rails": ["ar_qr"], "price": "1452", "priceTtlSeconds": 600,
-        "minFiat": "1000", "maxFiat": "500000", "active": true }'`,
+        "currency": "PEN", "rails": ["pe_qr"], "price": "3.70", "priceTtlSeconds": 600,
+        "minFiat": "5", "maxFiat": "2000", "active": true }'`,
   },
 
   release: {
@@ -178,8 +179,8 @@ const headers = {
 const bot = Keypair.fromSecret(process.env.BOT_SECRET!); // the bot's own key, never the merchant's
 
 interface BankTransfer {
-  currency: string; // ISO 4217, e.g. "ARS"
-  amount: string; // local money as received, e.g. "150000.00"
+  currency: string; // ISO 4217, e.g. "BOB"
+  amount: string; // local money as received, e.g. "1200.00"
   payerName?: string; // the sender's name, as the bank reports it
   payerDocument?: string; // the sender's tax id, when the bank reports it
   reference?: string; // the bank's transfer id
@@ -213,22 +214,22 @@ export async function onBankTransfer(transfer: BankTransfer, networkPassphrase: 
     code: `await fetch(\`\${API}/offers/\${offerId}\`, {
   method: 'PATCH',
   headers,
-  body: JSON.stringify({ price: '1488.50' }),
+  body: JSON.stringify({ price: '12.05' }),
 });`,
   },
 
   buy: {
     lang: 'bash',
     code: `curl -X POST $API/quotes -H "$AUTH" -H "Content-Type: application/json" \\
-  -d '{ "side": "BUY", "network": "testnet", "token": "USDC", "currency": "ARS",
-        "rail": "ar_bank_transfer", "fiatAmount": "50000" }'
+  -d '{ "side": "BUY", "network": "testnet", "token": "USDC", "currency": "BOB",
+        "rail": "bo_bank_transfer", "fiatAmount": "350" }'
 
 curl -X POST $API/orders -H "$AUTH" -H "Content-Type: application/json" \\
   -d '{
     "kind": "BUY",
     "quoteId": "QUOTE_ID",
     "recipient": "GUSERWALLET...",
-    "payer": { "name": "Ana Gómez", "document": "20329642330" },
+    "payer": { "name": "Ana Flores", "document": "6543210" },
     "externalReference": "order-881"
   }'
 # -> { "id": "...", "status": "pending", "paymentDetails": { ... }, "paymentDeadline": "..." }`,
@@ -243,16 +244,17 @@ curl -X POST $API/orders -H "$AUTH" -H "Content-Type: application/json" \\
   sell: {
     lang: 'bash',
     code: `curl -X POST $API/quotes -H "$AUTH" -H "Content-Type: application/json" \\
-  -d '{ "side": "SELL", "network": "testnet", "token": "USDC", "currency": "ARS",
-        "rail": "ar_bank_transfer", "tokenAmount": "250000000" }'
+  -d '{ "side": "SELL", "network": "testnet", "token": "USDC", "currency": "BOB",
+        "rail": "bo_bank_transfer", "tokenAmount": "250000000" }'
 
 curl -X POST $API/orders -H "$AUTH" -H "Content-Type: application/json" \\
   -d '{
     "kind": "SELL",
     "quoteId": "QUOTE_ID",
     "seller": "GUSERWALLET...",
-    "beneficiary": { "holderName": "Ana Gómez", "document": "20329642330",
-                     "details": { "alias": "ana.gomez.mp", "cuit": "20329642330" } }
+    "beneficiary": { "holderName": "Ana Flores",
+                     "details": { "bank": "Banco Unión", "accountType": "savings",
+                                  "accountNumber": "1000023456781" } }
   }'
 # -> { "id": "...", "status": "pending",
 #      "transactions": [ { "action": "open_with_deposit", "xdr": "AAAAAgAAAA...", "hash": "...", ... } ] }`,
@@ -263,10 +265,10 @@ curl -X POST $API/orders -H "$AUTH" -H "Content-Type: application/json" \\
     code: `# The person scanned a shop's QR (EMV payload, CRC checked). Session routes: the app's own.
 curl -X POST "$MIDPOINT_API_URL/v1/app/quotes" -b session.txt -H "Content-Type: application/json" \\
   -d '{ "kind": "QR_PAY", "network": "testnet", "token": "USDC",
-        "qr": "00020101021243...6304ABCD", "fiatAmount": "12500.00" }'
+        "qr": "0002010102123944...6304ABCD", "fiatAmount": "45.00" }'
 
 curl -X POST "$MIDPOINT_API_URL/v1/app/orders" -b session.txt -H "Content-Type: application/json" \\
-  -d '{ "kind": "QR_PAY", "quoteId": "QUOTE_ID", "qr": "00020101021243...6304ABCD" }'
+  -d '{ "kind": "QR_PAY", "quoteId": "QUOTE_ID", "qr": "0002010102123944...6304ABCD" }'
 # -> the order and its unsigned open_with_deposit: accept 2 min, payment 10 min, settle 1 h.`,
   },
 
@@ -274,7 +276,7 @@ curl -X POST "$MIDPOINT_API_URL/v1/app/orders" -b session.txt -H "Content-Type: 
     lang: 'bash',
     code: `curl -X POST "$MIDPOINT_API_URL/v1/app/transfers" -b session.txt -H "Content-Type: application/json" \\
   -d '{ "network": "testnet", "to": "@lucia", "token": "USDC", "amount": "125000000",
-        "note": "Asado" }'
+        "note": "Almuerzo" }'
 # -> { "transfer": { "id": "...", "to": "G...", "toHandle": "lucia", "status": "PENDING", ... },
 #      "transaction": { "xdr": "AAAAAgAAAA...", ... } }   # a payment; sign it, then POST /v1/app/submit`,
   },
@@ -283,13 +285,13 @@ curl -X POST "$MIDPOINT_API_URL/v1/app/orders" -b session.txt -H "Content-Type: 
     lang: 'bash',
     code: `curl -X POST $API/charges -H "$AUTH" -H "Content-Type: application/json" \\
   -d '{
-    "currency": "ARS",
-    "fiatAmount": "25000",
+    "currency": "BOB",
+    "fiatAmount": "250",
     "network": "testnet",
     "token": "USDC",
     "recipient": "ACCOUNT_ID",
     "description": "Order #1042",
-    "payeeName": "Tienda Lerma",
+    "payeeName": "Tienda Mamoré",
     "expiresAt": "2026-12-01T00:00:00Z",
     "multiUse": false
   }'
@@ -303,8 +305,8 @@ curl "$MIDPOINT_API_URL/v1/p2p-checkout/charges/CHARGE_ID"
 
 curl -X POST "$MIDPOINT_API_URL/v1/p2p-checkout/charges/CHARGE_ID/orders" \\
   -H "Content-Type: application/json" \\
-  -d '{ "rail": "ar_bank_transfer",
-        "payer": { "name": "Ana Gómez", "document": "32964233", "email": "ana@example.com" } }'
+  -d '{ "rail": "bo_bank_transfer",
+        "payer": { "name": "Ana Flores", "document": "6543210", "email": "ana@example.com" } }'
 # -> { "id": "...", "status": "pending", "payerToken": "..." }
 
 curl "$MIDPOINT_API_URL/v1/p2p-checkout/orders/ORDER_ID" -H "X-Payer-Token: PAYER_TOKEN"`,
@@ -319,13 +321,12 @@ curl "$MIDPOINT_API_URL/v1/p2p-checkout/orders/ORDER_ID" -H "X-Payer-Token: PAYE
     "accountId": "ACCOUNT_ID",
     "items": [
       {
-        "currency": "ARS",
-        "fiatAmount": "150000",
-        "rail": "ar_bank_transfer",
+        "currency": "BOB",
+        "fiatAmount": "1500",
+        "rail": "bo_bank_transfer",
         "beneficiary": {
-          "holderName": "Ana Gómez",
-          "document": "20329642330",
-          "details": { "cbu": "0170099222000001234561", "cuit": "20329642330" }
+          "holderName": "Ana Flores",
+          "details": { "bank": "Banco Unión", "accountType": "savings", "accountNumber": "1000023456781" }
         },
         "externalReference": "payroll-2026-11-ana"
       }
@@ -335,10 +336,10 @@ curl "$MIDPOINT_API_URL/v1/p2p-checkout/orders/ORDER_ID" -H "X-Payer-Token: PAYE
 
   payoutsCsv: {
     lang: 'csv',
-    code: `currency,amount,rail,holderName,document,cbu,alias,cuit,keyType,key,clabe,reference
-ARS,150000,ar_bank_transfer,Ana Gómez,20329642330,0170099222000001234561,,20329642330,,,,inv-1001
-BRL,820.50,br_pix,João Silva,52998224725,,,,email,joao@example.com,,inv-1002
-MXN,2500,mx_spei,María López,GODE561231GR8,,,,,,002010077777777771,inv-1003`,
+    code: `currency,amount,rail,holderName,document,bank,accountType,accountNumber,cci,keyType,key,reference
+BOB,1500,bo_bank_transfer,Ana Flores,,Banco Unión,savings,1000023456781,,,,inv-1001
+PEN,450,pe_bank_transfer,Rosa Quispe,,,,,00219300123456789012,,,inv-1002
+BRL,820.50,br_pix,João Silva,52998224725,,,,,email,joao@example.com,inv-1003`,
   },
 
   apiKey: {
@@ -362,10 +363,10 @@ curl "$MIDPOINT_API_URL/v1/p2p/orders" -H "Authorization: Bearer pk_test_..."`,
     "token": "C...",
     "tokenSymbol": "USDC",
     "tokenDecimals": 7,
-    "currency": "ARS",
-    "rail": "ar_bank_transfer",
-    "fiatAmount": "150000.00",
-    "tokenAmount": "1007710000",
+    "currency": "BOB",
+    "rail": "bo_bank_transfer",
+    "fiatAmount": "1200.00",
+    "tokenAmount": "995850622",
     "paymentDeadline": "2026-11-19T14:30:02.000Z",
     "paidReference": "TRX-88421"
   }

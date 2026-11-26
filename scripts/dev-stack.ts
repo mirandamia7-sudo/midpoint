@@ -18,7 +18,7 @@
  *      and XLM. A restart syncs an existing seed (what it lacks is added,
  *      offers in a token no longer listed are deactivated).
  *   5. The web app, when apps/web has a `dev` script.
- *   6. Three automated test merchants (Andes Cambio, Pampa Pagos, Río
+ *   6. Three automated test merchants (Andes Cambio, Illimani Pagos, Río
  *      Express), set up through the API on the first run and reused after,
  *      each run by a simulated-merchant bot (the SDK's) that accepts, marks
  *      paid and releases its orders a few seconds later; and live prices:
@@ -491,7 +491,7 @@ async function main(): Promise<void> {
     // Every minute: read the references again, then reprice the four merchants' offers.
     const priced = [
       {
-        name: 'Pampa Cambio (seeded)',
+        name: 'Oriente Cambio (seeded)',
         apiKey: seed.merchant.apiKey,
         spreadBps: dev.SEEDED_MERCHANT_SPREAD_BPS,
       },
@@ -558,7 +558,7 @@ async function main(): Promise<void> {
       ...ready.map((m) => `  ${m.slug.padEnd(8)}  ${m.api?.apiKey ?? ''}`),
       '',
       'Merchants (spread each way; the bots accept, mark paid and release 5 s later):',
-      `  Pampa Cambio   ${percent(dev.SEEDED_MERCHANT_SPREAD_BPS)}  the seeded "merchant" above, manual (npm run dev:simulate)`,
+      `  Oriente Cambio   ${percent(dev.SEEDED_MERCHANT_SPREAD_BPS)}  the seeded "merchant" above, manual (npm run dev:simulate)`,
       ...merchants.map(
         (m) =>
           `  ${m.displayName.padEnd(13)}  ${percent(m.spreadBps)}  ${m.publicKey}  ${m.secret}  ` +

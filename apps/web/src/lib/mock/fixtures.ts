@@ -30,7 +30,7 @@ export const MATCHER = account('matcher');
 export const SPONSOR = account('sponsor');
 export const SEP10_SIGNER = mockKeypair('sep10');
 export const OPS_MEMBER = account('ops');
-export const LERMA_OWNER = account('lerma-owner');
+export const SHOP_OWNER = account('shop-owner');
 export const BOT = account('bot');
 
 export const PERSONA_ADDRESS: Record<Persona, string> = {
@@ -84,6 +84,23 @@ export const CURRENCIES = [
     ],
   },
   {
+    code: 'PEN',
+    rails: [
+      {
+        id: 'pe_bank_transfer',
+        fields: [field('cci'), field('documentType'), field('documentNumber')],
+      },
+      { id: 'pe_qr', fields: [] },
+    ],
+  },
+  {
+    code: 'BRL',
+    rails: [
+      { id: 'br_pix', fields: [field('keyType'), field('key')] },
+      { id: 'br_pix_qr', fields: [] },
+    ],
+  },
+  {
     code: 'ARS',
     rails: [
       {
@@ -94,13 +111,14 @@ export const CURRENCIES = [
     ],
   },
   {
-    code: 'BRL',
+    code: 'CLP',
     rails: [
-      { id: 'br_pix', fields: [field('keyType'), field('key')] },
-      { id: 'br_pix_qr', fields: [] },
+      {
+        id: 'cl_bank_transfer',
+        fields: [field('bank'), field('accountType'), field('accountNumber'), field('rut')],
+      },
     ],
   },
-  { code: 'MXN', rails: [{ id: 'mx_spei', fields: [field('clabe')] }] },
   {
     code: 'COP',
     rails: [
@@ -116,25 +134,7 @@ export const CURRENCIES = [
       },
     ],
   },
-  {
-    code: 'PEN',
-    rails: [
-      {
-        id: 'pe_bank_transfer',
-        fields: [field('cci'), field('documentType'), field('documentNumber')],
-      },
-      { id: 'pe_qr', fields: [] },
-    ],
-  },
-  {
-    code: 'CLP',
-    rails: [
-      {
-        id: 'cl_bank_transfer',
-        fields: [field('bank'), field('accountType'), field('accountNumber'), field('rut')],
-      },
-    ],
-  },
+  { code: 'MXN', rails: [{ id: 'mx_spei', fields: [field('clabe')] }] },
 ];
 
 /** Price of 1 USDC in each currency, for the user's purchase (the merchant sells) and sale. */
@@ -200,7 +200,7 @@ export const MERCHANTS = [
     disputesLost: 1,
   },
   {
-    displayName: 'Lerma Exchange',
+    displayName: 'Sucre Cambios',
     completed: 312,
     completionRate: 0.981,
     medianReleaseSeconds: 260,
@@ -275,8 +275,8 @@ export const ORGS = [
     createdAt: '2026-09-02T13:00:00.000Z',
   },
   {
-    id: 'org_tiendalerma',
-    name: 'Tienda Lerma',
+    id: 'org_tiendamamore',
+    name: 'Tienda Mamoré',
     role: 'admin',
     createdAt: '2026-10-11T15:30:00.000Z',
   },
@@ -286,7 +286,7 @@ export const ORGS = [
 export const HANDLES: Record<string, string> = {
   lucia: FRIEND,
   nortecambios: MERCHANT_WALLET,
-  tiendalerma: BUSINESS_WALLET,
+  tiendamamore: BUSINESS_WALLET,
 };
 /** Words nobody can claim as a handle. */
 export const RESERVED_HANDLES = ['admin', 'support', 'soporte', 'midpoint', 'app', 'root'];

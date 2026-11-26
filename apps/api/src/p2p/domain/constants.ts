@@ -128,16 +128,16 @@ export const P2P_PRICE_DECIMALS = 6;
 /**
  * The local currencies the market prices, with their minor units. A payment
  * rail names one of them; a new currency is one entry here. The market lists
- * them in this order (Bolivia first).
+ * them in this order (Bolivia first, then its neighbours).
  */
 export const P2P_CURRENCIES = {
   BOB: { decimals: 2, country: 'BO' },
-  ARS: { decimals: 2, country: 'AR' },
-  BRL: { decimals: 2, country: 'BR' },
-  MXN: { decimals: 2, country: 'MX' },
-  COP: { decimals: 2, country: 'CO' },
   PEN: { decimals: 2, country: 'PE' },
+  BRL: { decimals: 2, country: 'BR' },
+  ARS: { decimals: 2, country: 'AR' },
   CLP: { decimals: 0, country: 'CL' },
+  COP: { decimals: 2, country: 'CO' },
+  MXN: { decimals: 2, country: 'MX' },
 } as const;
 export type P2pCurrency = keyof typeof P2P_CURRENCIES;
 export const P2P_CURRENCY_CODES = Object.keys(P2P_CURRENCIES) as P2pCurrency[];

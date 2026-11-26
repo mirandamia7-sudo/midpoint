@@ -463,7 +463,7 @@ constructor arguments and allows the tokens. Mainnet stays behind `--i-understan
 - Starts the API and the web, then prints the URLs, keys and the dev secret keys (local or testnet
   only).
 - Lists XLM (the owner allows its SAC on a market deployed before it).
-- Sets up three automated test merchants (Andes Cambio, Pampa Pagos, Río Express: their own
+- Sets up three automated test merchants (Andes Cambio, Illimani Pagos, Río Express: their own
   organizations, keys, payment methods in every listed currency with Bolivia's first, offers in
   USDC and XLM, liquidity and the matcher), runs the SDK's simulated merchant for each, and
   reprices all four merchants' offers every minute from live mainnet references (CriptoYa with an

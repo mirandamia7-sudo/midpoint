@@ -20,7 +20,7 @@ const CHARGE = {
   currency: 'ARS',
   fiatAmount: '85000.00',
   description: 'Order #1042',
-  merchantName: 'Tienda Salta',
+  merchantName: 'Tienda Mamoré',
   status: 'open',
   rails: ['ar_bank_transfer'],
   expiresAt: '2026-11-26T12:00:00.000Z',
@@ -51,7 +51,7 @@ test('a charge: every field checked, the symbol from tokenSymbol, rails possibly
     currency: 'ARS',
     fiatAmount: '85000.00',
     description: 'Order #1042',
-    payeeName: 'Tienda Salta',
+    payeeName: 'Tienda Mamoré',
     status: 'open',
     rails: ['ar_bank_transfer'],
     expiresAt: CHARGE.expiresAt,
@@ -167,9 +167,9 @@ test('explorer links: https only, and only for a real hash, account or contract'
 
 test('the payee may come as payeeName; ids may use underscores', () => {
   assert.equal(
-    parseCheckoutCharge({ ...CHARGE, merchantName: undefined, payeeName: 'Tienda Lerma' })
+    parseCheckoutCharge({ ...CHARGE, merchantName: undefined, payeeName: 'Tienda Mamoré' })
       ?.payeeName,
-    'Tienda Lerma',
+    'Tienda Mamoré',
   );
   assert.equal(parseCheckoutCharge({ ...CHARGE, id: 'ch_pedido1042' })?.id, 'ch_pedido1042');
 });

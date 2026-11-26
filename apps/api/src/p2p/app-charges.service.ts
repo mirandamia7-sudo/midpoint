@@ -33,7 +33,7 @@ type ChargeRow = P2pChargeRow & { organizationId: string };
  * and the transaction is a plain token transfer to the charge's receiving
  * account. The charge counts as paid only once that transfer succeeded
  * on-chain (`SubmissionsService` settles it, with `P2P_CHARGE_SUCCEEDED`
- * and `paidWith: 'TOKEN'`). The pesos checkout (`/pay/{id}`) stays.
+ * and `paidWith: 'TOKEN'`). The local-money checkout (`/pay/{id}`) stays.
  *
  * A single-use charge takes one payment at a time: while an order or another
  * unexpired payment is under way, a new payment is `409`.

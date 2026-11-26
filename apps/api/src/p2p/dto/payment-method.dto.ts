@@ -24,11 +24,11 @@ export class CreatePaymentMethodDto {
   @IsString()
   accountId!: string;
 
-  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'ARS' })
+  @ApiProperty({ enum: P2P_CURRENCY_CODES, example: 'BOB' })
   @IsIn(P2P_CURRENCY_CODES)
   currency!: string;
 
-  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'ar_bank_transfer' })
+  @ApiProperty({ enum: P2P_RAIL_IDS, example: 'bo_bank_transfer' })
   @IsIn(P2P_RAIL_IDS)
   rail!: string;
 
@@ -41,7 +41,13 @@ export class CreatePaymentMethodDto {
   @ApiProperty({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { alias: 'pampa.cambio', cuit: '20123456786' },
+    example: {
+      bank: 'Banco Unión',
+      accountType: 'savings',
+      accountNumber: '1000012345678',
+      documentType: 'NIT',
+      documentNumber: '1023456789',
+    },
   })
   @IsObject()
   details!: Record<string, string>;
@@ -67,7 +73,13 @@ export class UpdatePaymentMethodDto {
   @ApiPropertyOptional({
     type: 'object',
     additionalProperties: { type: 'string' },
-    example: { alias: 'pampa.cambio2', cuit: '20123456786' },
+    example: {
+      bank: 'Banco Unión',
+      accountType: 'savings',
+      accountNumber: '1000012345679',
+      documentType: 'NIT',
+      documentNumber: '1023456789',
+    },
     description: 'Replaces the details whole, checked like a new method’s.',
   })
   @IsOptional()

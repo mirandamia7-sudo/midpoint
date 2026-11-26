@@ -48,8 +48,8 @@ function arQr(amount: string, reference: string): string {
     tlv('53', '032'),
     tlv('54', amount),
     tlv('58', 'AR'),
-    tlv('59', 'PANADERIA SALTENA'),
-    tlv('60', 'SALTA'),
+    tlv('59', 'PANADERIA EL HORNERO'),
+    tlv('60', 'BUENOS AIRES'),
     tlv('62', tlv('05', reference)),
   ].join('')}6304`;
   return `${body}${emvCrc(body)}`;
@@ -257,7 +257,7 @@ describe.skipIf(NETWORK !== 'testnet' && NETWORK !== 'local')('the market on Ste
       userSession,
       { kind: 'QR_PAY', network: chain.network, token: dollar, qr },
     );
-    expect(quote).toMatchObject({ kind: 'QR_PAY', qr: { merchantName: 'PANADERIA SALTENA' } });
+    expect(quote).toMatchObject({ kind: 'QR_PAY', qr: { merchantName: 'PANADERIA EL HORNERO' } });
     const created = await api.call<Order & { transactions: { xdr: string; network: string }[] }>(
       'POST',
       '/v1/app/orders',

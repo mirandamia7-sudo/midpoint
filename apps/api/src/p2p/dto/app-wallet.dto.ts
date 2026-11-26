@@ -6,7 +6,7 @@ import { NETWORK_IDS } from '@/chain/networks';
 @ApiSchema({ name: 'UpdateProfile', description: 'Claim or change your @handle.' })
 export class UpdateProfileDto {
   @ApiProperty({
-    example: 'maria_salta',
+    example: 'maria_flores',
     description:
       '3 to 20 of a-z, 0-9 and underscore (a leading @ and upper case are accepted and normalised). Unique, case-insensitive; reserved words are refused.',
   })
@@ -50,7 +50,7 @@ export class CreateTransferDto {
   network?: string;
 
   @ApiProperty({
-    example: '@maria_salta',
+    example: '@maria_flores',
     description: 'A G (account), M (muxed account) or C (contract) address, or an @handle.',
   })
   @IsString()

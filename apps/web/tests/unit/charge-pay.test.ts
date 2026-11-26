@@ -34,7 +34,7 @@ const charge = (over: Partial<NonNullable<PayerCharge['payWithBalance']>> = {}):
   currency: 'ARS',
   fiatAmount: '25000.00',
   description: null,
-  merchantName: 'Tienda Lerma',
+  merchantName: 'Tienda Mamoré',
   network: 'testnet',
   token: 'USDC',
   expiresAt: null,

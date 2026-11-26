@@ -22,7 +22,7 @@ describe('the bot merchants', () => {
   it('are three distinct merchants with distinct spreads of 0.5 to 1.5 % each way', () => {
     expect(BOT_MERCHANTS.map((m) => m.displayName)).toEqual([
       'Andes Cambio',
-      'Pampa Pagos',
+      'Illimani Pagos',
       'Río Express',
     ]);
     const spreads = [...BOT_MERCHANTS.map((m) => m.spreadBps), SEEDED_MERCHANT_SPREAD_BPS];
@@ -44,7 +44,7 @@ describe('the bot merchants', () => {
     }
     const qr = new Set(BOT_MERCHANTS.flatMap((m) => m.qrRails));
     expect([...qr].sort()).toEqual(['ar_qr', 'br_pix_qr', 'pe_qr']);
-    // Peru's QR (Yape, Plin, banks): the merchants that trade soles take it, and Pampa Pagos too.
+    // Peru's QR (Yape, Plin, banks): the merchants that trade soles take it, and Illimani Pagos too.
     for (const merchant of BOT_MERCHANTS)
       expect(merchant.qrRails, merchant.slug).toContain('pe_qr');
   });

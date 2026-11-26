@@ -390,7 +390,7 @@ test("an order, from the client's and the merchant's views", () => {
       payload: '000201010212',
       standard: 'ar-interoperable',
       merchantName: 'Cafe El Molino',
-      merchantCity: 'Salta',
+      merchantCity: 'Buenos Aires',
       amount: '12500.00',
       currency: 'ARS',
       reference: 'MESA-4',
@@ -401,7 +401,7 @@ test("an order, from the client's and the merchant's views", () => {
     payload: '000201010212',
     standard: 'ar-interoperable',
     merchantName: 'Cafe El Molino',
-    merchantCity: 'Salta',
+    merchantCity: 'Buenos Aires',
     amount: '12500.00',
     currency: 'ARS',
     reference: 'MESA-4',
@@ -474,11 +474,11 @@ test('transfer matches, charges and payout batches', () => {
     id: 'c',
     status: 'open',
     qr: 'data:image/png;base64,iVBORw0KGgo=',
-    payeeName: 'Tienda Salta',
+    payeeName: 'Tienda Mamoré',
   });
   assert.deepEqual(
     [withQr.qr, withQr.payeeName],
-    ['data:image/png;base64,iVBORw0KGgo=', 'Tienda Salta'],
+    ['data:image/png;base64,iVBORw0KGgo=', 'Tienda Mamoré'],
   );
   const b = normalizePayoutBatch({
     id: 'b',

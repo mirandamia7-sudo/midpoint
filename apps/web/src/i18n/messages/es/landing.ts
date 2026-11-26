@@ -9,7 +9,7 @@ const landing = {
     open: 'Crear cuenta',
     merchant: 'Soy comerciante',
     rails:
-      'Transferencia bancaria en Bolivia, CVU o alias en Argentina, PIX en Brasil, SPEI en México, y bancos de Colombia, Perú y Chile.',
+      'Transferencia bancaria en Bolivia, Perú, Argentina, Chile y Colombia, PIX en Brasil y SPEI en México.',
   },
   slip: {
     caption: 'Así se ve una orden: el monto exacto, la cuenta y el tiempo que te queda.',
@@ -52,7 +52,7 @@ const landing = {
       },
       {
         title: 'Paga con QR',
-        body: 'Escanea el QR de un comercio en Argentina o un PIX en Brasil: un comerciante del mercado lo paga por ti en pesos o reales.',
+        body: 'Escanea el QR de un comercio en Perú, Brasil o Argentina: un comerciante del mercado lo paga por ti en la moneda de ese país.',
       },
       {
         title: 'Carga y retira',

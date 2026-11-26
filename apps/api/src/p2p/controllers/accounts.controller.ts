@@ -121,7 +121,7 @@ export class PaymentMethodsController {
   @ApiOperation({
     summary: 'Add a payment method',
     description:
-      'Where one of your wallets receives local money, checked per rail (CBU/CVU check digits, CUIT, PIX keys, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.',
+      'Where one of your wallets receives local money, checked per rail (Bolivian accounts with their CI or NIT, CCI, PIX keys, CBU/CVU check digits, CLABE...) and encrypted at rest. A purchase shows its payer the one method the order names.',
   })
   @ApiCreatedResponse({ type: PaymentMethodView })
   @ApiErrors(400, 404)

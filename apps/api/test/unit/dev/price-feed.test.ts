@@ -199,7 +199,7 @@ describe('PriceFeed', () => {
     expect(snapshot.usd.BOB?.value).toBeCloseTo(11.955, 9);
     expect(feed.reference('USDC', 'BOB')).toBeCloseTo(11.955, 9);
     expect(feed.reference('XLM', 'BOB')).toBeCloseTo(0.133 * 11.955, 9);
-    expect(feed.describe()).toMatch(/^USD→ BOB 11\.9\d ARS 1000 /);
+    expect(feed.describe()).toMatch(/^USD→ BOB 11\.9\d PEN 1000 /);
   });
 
   it('falls back to the FX API for a currency CriptoYa lacks', async () => {

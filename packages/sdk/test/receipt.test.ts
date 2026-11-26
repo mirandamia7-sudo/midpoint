@@ -102,15 +102,15 @@ describe('the receipt', () => {
       qr: {
         payload: '000201...',
         standard: 'ar-interoperable',
-        merchantName: 'PANADERIA SALTENA',
-        merchantCity: 'SALTA',
+        merchantName: 'PANADERIA EL HORNERO',
+        merchantCity: 'BUENOS AIRES',
         amount: '5950.00',
         currency: 'ARS',
         reference: 'T123',
       },
     };
-    const lines = receiptLines(qr, 'Pampa Pagos', PAID_AT);
-    expect(lines).toContain('Beneficiario: PANADERIA SALTENA');
+    const lines = receiptLines(qr, 'Illimani Pagos', PAID_AT);
+    expect(lines).toContain('Beneficiario: PANADERIA EL HORNERO');
     expect(lines).toContain('Cuenta: QR ref. T123');
     expect(lines).toContain('Medio: Pago con QR interoperable');
     expect(lines).toContain('Fecha y hora: 20/11/2026 10:15 (GMT-3)');

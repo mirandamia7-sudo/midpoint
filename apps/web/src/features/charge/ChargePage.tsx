@@ -23,7 +23,7 @@ import { Field, Notice, SelectField, Skeleton, Spinner } from '@/components/ui/c
 import { Icon } from '@/components/ui/Icon';
 import { CopyRow, figureSize, useNow } from '@/components/ui/misc';
 import { accountRows, errorText, railName } from '@/components/p2p/parts';
-import { LangToggle, ThemeToggle } from '@/components/layout/SiteFrame';
+import { LangPicker, ThemeToggle } from '@/components/layout/SiteFrame';
 import { useGuard } from '@/lib/use-action';
 
 export default function ChargePage() {
@@ -63,7 +63,7 @@ export default function ChargePage() {
           <Logo size={20} />
         </Link>
         <div className="flex items-center gap-1">
-          <LangToggle />
+          <LangPicker />
           <ThemeToggle />
         </div>
       </header>

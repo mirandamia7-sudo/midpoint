@@ -3,7 +3,7 @@
 The web app on Stellar: the payments app (an installable PWA), the hosted charge page, the
 merchant and business dashboard, and the docs. Vite + React 19 + React Router + Tailwind v4,
 TypeScript strict, `@stellar/stellar-sdk` 17, wallets from [Pollar](https://docs.pollar.xyz). UI in
-Spanish (default) and English. The product's name lives in `src/lib/brand.ts` only; translations
+Spanish (default), English and Brazilian Portuguese. The product's name lives in `src/lib/brand.ts` only; translations
 say `{brand}`.
 
 | Path | What |

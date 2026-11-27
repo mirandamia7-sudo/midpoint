@@ -6,24 +6,35 @@ import { Logo } from '@/components/ui/Logo';
 import { Icon } from '@/components/ui/Icon';
 import { Address } from '@/components/ui/misc';
 import { ConnectDialog } from '@/components/wallet/ConnectDialog';
-import { fmt, useI18n, type Lang } from '@/i18n';
+import { LANGS, fmt, isLang, useI18n } from '@/i18n';
 import { useTheme } from '@/lib/theme';
 import { useSession } from '@/lib/session';
 
-export function LangToggle() {
+/** The language: the phone's own picker (a native select, invisible) over the site's quiet button,
+    which shows the current language's code. */
+export function LangPicker() {
   const { t, lang, setLang } = useI18n();
-  const other: Lang = lang === 'es' ? 'en' : 'es';
   return (
-    <button
-      type="button"
-      className="btn btn-quiet btn-sm px-2.5"
-      onClick={() => setLang(other)}
-      aria-label={fmt(t.common.lang.switchTo, { lang: t.common.lang[other] })}
-      lang={other}
-    >
+    <span className="btn btn-quiet btn-sm relative px-2.5 has-[select:focus-visible]:outline-2 has-[select:focus-visible]:outline-offset-2 has-[select:focus-visible]:outline-[var(--focus)]">
       <Icon name="globe" size={18} />
-      <span className="font-semibold uppercase">{other}</span>
-    </button>
+      <span className="font-semibold uppercase" aria-hidden="true">
+        {lang}
+      </span>
+      <select
+        className="absolute inset-0 size-full cursor-pointer appearance-none text-base opacity-0"
+        value={lang}
+        onChange={(e) => {
+          if (isLang(e.target.value)) setLang(e.target.value);
+        }}
+        aria-label={t.common.lang.label}
+      >
+        {LANGS.map((code) => (
+          <option key={code} value={code} lang={code}>
+            {t.common.lang[code]}
+          </option>
+        ))}
+      </select>
+    </span>
   );
 }
 
@@ -114,7 +125,7 @@ export function SiteHeader() {
           )}
         </nav>
         <div className="ml-auto flex items-center gap-1">
-          <LangToggle />
+          <LangPicker />
           <ThemeToggle />
           <div className="hidden sm:block">
             <WalletButton />

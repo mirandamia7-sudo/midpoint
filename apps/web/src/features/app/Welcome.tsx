@@ -17,7 +17,7 @@ import { useI18n } from '@/i18n';
 import { Logo, LogoGlyph } from '@/components/ui/Logo';
 import { Icon } from '@/components/ui/Icon';
 import { SignIn, type AuthMode } from '@/components/wallet/SignIn';
-import { LangToggle, ThemeToggle } from '@/components/layout/SiteFrame';
+import { LangPicker, ThemeToggle } from '@/components/layout/SiteFrame';
 import { useSession } from '@/lib/session';
 import { useClearErrors } from '@/components/ui/Toast';
 
@@ -66,7 +66,7 @@ function Intro({ onMode }: { onMode: (m: AuthMode) => void }) {
         <AuraPanel />
         <div className="flex flex-col px-12 py-8 xl:px-16">
           <div className="flex justify-end gap-1">
-            <LangToggle />
+            <LangPicker />
             <ThemeToggle />
           </div>
           <div className="mx-auto flex w-full max-w-[480px] flex-1 flex-col justify-center py-10">
@@ -93,7 +93,7 @@ function Intro({ onMode }: { onMode: (m: AuthMode) => void }) {
         <div className="tone-light flex items-center justify-between px-6 pt-3 text-ink md:px-10 md:pt-6">
           <Logo size={20} />
           <span className="flex items-center gap-1">
-            <LangToggle />
+            <LangPicker />
             <ThemeToggle />
           </span>
         </div>
@@ -155,7 +155,7 @@ function Auth({
             <Icon name="back" size={20} />
           </button>
           <span className="flex items-center gap-1">
-            <LangToggle />
+            <LangPicker />
             <ThemeToggle />
           </span>
         </div>

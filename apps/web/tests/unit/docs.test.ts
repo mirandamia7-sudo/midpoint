@@ -290,11 +290,11 @@ test('pages: addresses, lookups, and every code sample a guide places exists in 
       }
     }
   }
-  // Both languages place the same samples in the same blocks.
+  // Every language places the same samples in the same blocks as the Spanish source.
   for (const p of DOC_PAGES) {
     const code = (lang: (typeof LANGS)[number]) =>
       CATALOGS[lang].docs.pages[p.key].body.filter((l) => l.startsWith('@@code'));
-    assert.deepEqual(code('en'), code('es'), p.key);
+    for (const lang of LANGS) assert.deepEqual(code(lang), code('es'), `${lang}:${p.key}`);
   }
 });
 

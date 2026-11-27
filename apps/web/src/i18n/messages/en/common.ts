@@ -23,7 +23,7 @@ const common: typeof es = {
     system: 'Automatic',
     toggle: 'Change the theme: {theme}',
   },
-  lang: { label: 'Language', es: 'Español', en: 'English', switchTo: 'View in {lang}' },
+  lang: { label: 'Language', es: 'Español', en: 'English', pt: 'Português' },
   footer: {
     product: 'Product',
     developers: 'Developers',

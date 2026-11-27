@@ -52,8 +52,9 @@ keys) are part of the API contract.
   so its own `@/` never leaks into a consumer.
 - **Everything technical is in English**: code, identifiers, comments, logs, errors, CLI messages,
   commits, PRs, READMEs, this file.
-- **The UI ships in Spanish and English** through translation files; no user-facing string is
-  hard-coded. Spanish is the default.
+- **The UI ships in Spanish, English and Brazilian Portuguese** through translation files
+  (`apps/web/src/i18n/messages/{es,en,pt}`); no user-facing string is hard-coded. Spanish is the
+  source and the default; every other catalog mirrors it key for key.
 - **Tests ship with the change.** A new rule, service or route gets its tests in the same commit.
 - Conventional commits (`feat(api): ...`, `fix(contracts): ...`).
 

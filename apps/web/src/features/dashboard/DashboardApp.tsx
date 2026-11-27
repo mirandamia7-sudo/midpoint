@@ -13,7 +13,7 @@ import { Field, Notice, Spinner } from '@/components/ui/controls';
 import { Address } from '@/components/ui/misc';
 import { useToast } from '@/components/ui/Toast';
 import { SignIn } from '@/components/wallet/SignIn';
-import { LangToggle, ThemeToggle } from '@/components/layout/SiteFrame';
+import { LangPicker, ThemeToggle } from '@/components/layout/SiteFrame';
 import { DashProvider, useDash } from '@/features/dashboard/context';
 import { OverviewView } from '@/features/dashboard/views/OverviewView';
 import { LiquidityView } from '@/features/dashboard/views/LiquidityView';
@@ -92,7 +92,7 @@ function Bare({ children }: { children: ReactNode }) {
           <Logo />
         </Link>
         <div className="flex items-center gap-1">
-          <LangToggle />
+          <LangPicker />
           <ThemeToggle />
         </div>
       </header>
@@ -320,7 +320,7 @@ function SideNav() {
           </div>
         )}
         <div className="flex items-center gap-1">
-          <LangToggle />
+          <LangPicker />
           <ThemeToggle />
           <Link to="/" className="btn btn-quiet btn-sm ml-auto px-2">
             {d.nav.site}

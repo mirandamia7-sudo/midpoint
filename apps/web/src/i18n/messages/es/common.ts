@@ -22,7 +22,7 @@ const common = {
     system: 'Automático',
     toggle: 'Cambiar el tema: {theme}',
   },
-  lang: { label: 'Idioma', es: 'Español', en: 'English', switchTo: 'Ver en {lang}' },
+  lang: { label: 'Idioma', es: 'Español', en: 'English', pt: 'Português' },
   footer: {
     product: 'Producto',
     developers: 'Desarrolladores',

@@ -44,7 +44,7 @@ Owner decisions so far:
 | Matching              | The user types an amount and the market picks the merchant (no ads book)                                                                        |
 | Client tools          | Merchant bots via API, embedded buy/sell for businesses, collections (charges) and payouts                                                      |
 | Repo                  | Private `Emanuel250YT/pedospe`, local folder `C:\Users\emanu\OneDrive\Desktop\pedospe` (both still under the old name), npm workspaces monorepo |
-| UI languages          | Spanish (default) and English                                                                                                                   |
+| UI languages          | Spanish (default), English and Brazilian Portuguese                                                                                             |
 
 ## 2. History you should know
 

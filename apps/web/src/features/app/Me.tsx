@@ -9,7 +9,7 @@ import { LogoGlyph } from '@/components/ui/Logo';
 import { CopyRow } from '@/components/ui/misc';
 import { CurrencyMark } from '@/components/p2p/parts';
 import { ConfirmDialog } from '@/components/ui/Dialog';
-import { LangToggle, ThemeToggle } from '@/components/layout/SiteFrame';
+import { LangPicker, ThemeToggle } from '@/components/layout/SiteFrame';
 import { shortAddress } from '@/lib/format';
 import { install, usePwa } from '@/lib/pwa';
 import { useSession } from '@/lib/session';
@@ -95,7 +95,7 @@ export default function Me() {
               </button>
             </Row>
             <Row label={m.language}>
-              <LangToggle />
+              <LangPicker />
             </Row>
             <Row label={m.theme}>
               <ThemeToggle />

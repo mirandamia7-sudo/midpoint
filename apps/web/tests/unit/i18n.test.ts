@@ -1,6 +1,6 @@
-/* i18n.test.ts: every key of the Spanish catalog (the source) exists in English and the other way
-   round, no value is empty, lists have the same length, and every {placeholder} a Spanish string
-   uses is in its English twin (and no new one appears). The catalogs' types already make a
+/* i18n.test.ts: every key of the Spanish catalog (the source) exists in every other language and
+   the other way round, no value is empty, lists have the same length, and every {placeholder} a
+   Spanish string uses is in each twin (and no new one appears). The catalogs' types already make a
    missing key a compile error; this also catches empty strings and placeholder drift. */
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
@@ -31,14 +31,22 @@ function leaves(tree: Tree, path = ''): Map<string, string> {
 
 const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
 
-test('both languages have exactly the same keys', () => {
+const TWINS = LANGS.filter((lang) => lang !== 'es');
+
+test('the languages are Spanish (the source), English and Portuguese', () => {
+  assert.deepEqual([...LANGS], ['es', 'en', 'pt']);
+});
+
+test('every language has exactly the keys of the Spanish catalog', () => {
   const es = leaves(CATALOGS.es);
-  const en = leaves(CATALOGS.en);
-  const missing = [...es.keys()].filter((k) => !en.has(k));
-  const extra = [...en.keys()].filter((k) => !es.has(k));
-  assert.deepEqual(missing, [], 'keys missing in English');
-  assert.deepEqual(extra, [], 'keys only in English');
   assert.ok(es.size > 500, `a real catalog (${es.size} strings)`);
+  for (const lang of TWINS) {
+    const twin = leaves(CATALOGS[lang]);
+    const missing = [...es.keys()].filter((k) => !twin.has(k));
+    const extra = [...twin.keys()].filter((k) => !es.has(k));
+    assert.deepEqual(missing, [], `keys missing in ${lang}`);
+    assert.deepEqual(extra, [], `keys only in ${lang}`);
+  }
 });
 
 test('no value is empty or not a string', () => {
@@ -53,15 +61,31 @@ test('no value is empty or not a string', () => {
 
 test('placeholders match between the languages', () => {
   const es = leaves(CATALOGS.es);
-  const en = leaves(CATALOGS.en);
-  for (const [k, v] of es) {
-    if (k.endsWith('#length')) continue;
-    assert.deepEqual(placeholders(en.get(k) ?? ''), placeholders(v), `placeholders of ${k}`);
+  for (const lang of TWINS) {
+    const twin = leaves(CATALOGS[lang]);
+    for (const [k, v] of es) {
+      if (k.endsWith('#length')) continue;
+      assert.deepEqual(placeholders(twin.get(k) ?? ''), placeholders(v), `${lang}:${k}`);
+    }
   }
+});
+
+test('each language is named in its own words in every catalog', () => {
+  for (const lang of LANGS)
+    assert.deepEqual(
+      {
+        es: CATALOGS[lang].common.lang.es,
+        en: CATALOGS[lang].common.lang.en,
+        pt: CATALOGS[lang].common.lang.pt,
+      },
+      { es: 'Español', en: 'English', pt: 'Português' },
+      lang,
+    );
 });
 
 test('the starting language: the address, then the saved choice, then Spanish', () => {
   assert.equal(initialLang('?lang=en'), 'en');
+  assert.equal(initialLang('?lang=pt'), 'pt');
   assert.equal(initialLang('?lang=fr'), 'es');
   assert.equal(initialLang(''), 'es');
 });

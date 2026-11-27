@@ -1,8 +1,8 @@
 /* i18n: the UI's words come from translation catalogs, never from the components. Spanish is the
-   source and the default (src/i18n/messages/es); English mirrors it key for key, which the
-   catalogs' types enforce at compile time and tests/unit/i18n.test.ts checks at run time
-   (keys, non-empty values, matching {placeholders}). The product's name is never written in a
-   catalog: strings say `{brand}` and get it from src/lib/brand.ts.
+   source and the default (src/i18n/messages/es); English and Brazilian Portuguese mirror it key
+   for key, which the catalogs' types enforce at compile time and tests/unit/i18n.test.ts checks
+   at run time (keys, non-empty values, matching {placeholders}). The product's name is never
+   written in a catalog: strings say `{brand}` and get it from src/lib/brand.ts.
 
    The language: `?lang=xx` in the address, else the visitor's saved choice, else Spanish. */
 import {
@@ -16,15 +16,20 @@ import {
 } from 'react';
 import es from '@/i18n/messages/es';
 import en from '@/i18n/messages/en';
+import pt from '@/i18n/messages/pt';
 import { withBrand } from '@/lib/brand';
 
 export type Messages = typeof es;
-export const LANGS = ['es', 'en'] as const;
+export const LANGS = ['es', 'en', 'pt'] as const;
 export type Lang = (typeof LANGS)[number];
 /** The catalogs as written: `{brand}` where the product's name goes. */
-export const RAW_CATALOGS: Record<Lang, Messages> = { es, en };
+export const RAW_CATALOGS: Record<Lang, Messages> = { es, en, pt };
 /** The catalogs the screens read, with the product's name filled in (src/lib/brand.ts). */
-export const CATALOGS: Record<Lang, Messages> = { es: withBrand(es), en: withBrand(en) };
+export const CATALOGS: Record<Lang, Messages> = {
+  es: withBrand(es),
+  en: withBrand(en),
+  pt: withBrand(pt),
+};
 export const DEFAULT_LANG: Lang = 'es';
 
 const STORAGE_KEY = 'midpoint.lang';

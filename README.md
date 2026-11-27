@@ -10,7 +10,7 @@ smart contract.
 
 ## What it does
 
-For people, the app at `/app` (an installable PWA, in Spanish and English):
+For people, the app at `/app` (an installable PWA, in Spanish, English and Portuguese):
 
 - Sign up with an email code or Google (Pollar wallets). Midpoint pays the Stellar network fees.
 - Add money and cash out by bank transfer in bolivianos, or in soles, reais (PIX), and Argentine,
